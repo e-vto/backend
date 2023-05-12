@@ -50,19 +50,26 @@ export class AuthService {
 		await this.sessionTokenRepository.delete({ user: auth.user });
 
 		// Criar um novo token
-		const token = new SessionToken();
+		const token = this.generateToken(auth.user);
 
-		token.created_at = dayjs().toDate();
-		token.expires_at = dayjs().add(7, "days").toDate();
+		// Guardar o token de autenticação
+		await this.sessionTokenRepository.save(token);
 
 		return token;
 	}
 
-	private generateToken(user: User): string {
+	private generateToken(user: User): SessionToken {
 		const base64 = (data: string) => Buffer.from(data).toString("base64");
 		const randomData = () => crypto.randomBytes(16).toString("base64");
 
-		return base64(user.id.toString()) + ":" + randomData();
+		const token = new SessionToken();
+
+		token.user = user;
+		token.token_value = base64(user.id.toString()) + ":" + randomData();
+		token.created_at = dayjs().toDate();
+		token.expires_at = dayjs().add(7, "days").toDate();
+
+		return token;
 	}
 
 	private encodePassword(plaintext: string, salt: string) {
