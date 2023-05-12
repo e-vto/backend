@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+     "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "ES2022",
+    "module": "es2022",
+		"moduleResolution": "node",
+    "jsx": "react",
+    "outDir": "dist",
+		"allowSyntheticDefaultImports": true,
+		"strictNullChecks": true
+  },
+	"include": ["src/"],
+	"exclude": ["node_modules/"]
+}
