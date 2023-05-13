@@ -83,4 +83,29 @@ export class AuthService {
 	private generateSalt(): string {
 		return crypto.randomBytes(16).toString("base64");
 	}
+
+	/**
+	 * Salva .
+	 * @param auth - O objeto de auth a ser salvo.
+	 * @returns Uma Promise que diz se o valor foi cadastrado ou não.
+	 */
+	public async saveAuth(auth: Auth): Promise<Boolean> {
+		const authResponse = await this.authRepository.save(auth);
+		// fiz assim pois acho que nao cabe ficar andando por ai com o auth
+		if (authResponse === null) return false;
+
+		return true;
+	}
+
+	public async registerAuth(user: User, password: string): Promise<Boolean> {
+		const auth = new Auth();
+
+		auth.user = user.id;
+		auth.password_salt = this.generateSalt();
+		auth.password_hashed = this.encodePassword(password, auth.password_salt);
+
+		const authResponse = await this.saveAuth(auth);
+
+		return authResponse;
+	}
 }

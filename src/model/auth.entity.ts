@@ -3,9 +3,9 @@ import { User } from "./user.entity.js";
 
 @Entity()
 export class Auth {
-	@PrimaryColumn()
+	@PrimaryColumn({ type: 'int' })
 	@OneToOne(() => User)
-	user: User;
+	user: any;
 
 	/**
 	 * A senha do usuário

@@ -10,6 +10,8 @@ import {
 	NotFoundError,
 } from "routing-controllers";
 import { UserService } from "../service/userService";
+import { User } from "../model/user.entity";
+import { response } from "express";
 
 @JsonController()
 export class UserController {
@@ -38,6 +40,24 @@ export class UserController {
 	@Post("/users")
 	post(@Body() user: any) {
 		return "Saving user...";
+	}
+
+	@Post("/users/register")
+	register(@Body() user: any) {
+		const userObj = new User();
+		userObj.name = user.name;
+		userObj.email = user.email;
+		userObj.cpf = user.cpf;
+		userObj.phone = user.phone;
+		userObj.birthdate = user.birthdate;
+
+		const password = user.password;
+
+		// ainda tem q validar todos os dados;
+
+		const response = this.userService.registerUser(userObj, password);
+
+		return response;
 	}
 
 	@Put("/users/:id")
