@@ -2,6 +2,7 @@ import { Repository } from "typeorm";
 import { User } from "../model/user.entity";
 import { AppDataSource } from "../providers/dataSource";
 import { AuthService } from "./authService";
+
 export class UserService {
 	private userRepository: Repository<User>;
 
@@ -35,16 +36,15 @@ export class UserService {
 	 * @param password - A senha do usuário encriptada.
 	 * @returns Uma Promise que resolve para o usuário salvo.
 	 */
-	public async registerUser(user: User, password: string): Promise<Boolean> {
-		// TECNINCAMENTE AQ A SENHA TEM QUE VIR ENCRIPTADA DO FRONT PRA DEPOIS DESENCRIPTAR
+	public async registerUser(user: User, password: string): Promise<User> {
 		const userResponse = await this.saveUser(user);
 
 		if (userResponse === null) {
 			throw new Error("Something got wrong on register the user");
 		}
 
-		const authResponse = await new AuthService().registerAuth(userResponse, password);
+		await new AuthService().setAuthInfoForUser(userResponse, password);
 
-		return authResponse;
+		return user;
 	}
 }

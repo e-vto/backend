@@ -21,6 +21,11 @@ export class AuthService {
 		this.sessionTokenRepository = AppDataSource.getRepository(SessionToken);
 	}
 
+	/**
+	 * Determin
+	 * @param user
+	 * @returns
+	 */
 	async isUserLoggedIn(user: User): Promise<boolean> {
 		return true;
 	}
@@ -58,6 +63,29 @@ export class AuthService {
 		return token;
 	}
 
+	/**
+	 * Atualiza/registra as informações de login do usuário.
+	 * @param auth - O objeto de auth a ser salvo.
+	 * @returns Uma Promise que resolve com as informações de login criadas.
+	 */
+	public async setAuthInfoForUser(user: User, password: string): Promise<Auth> {
+		// Remover informações antigas de auth do usuário
+		await this.authRepository.delete({ user: { id: user.id } });
+
+		const auth = new Auth();
+
+		auth.user = user;
+		auth.password_salt = this.generateSalt();
+		auth.password_hashed = this.encodePassword(password, auth.password_salt);
+
+		return await this.authRepository.save(auth);
+	}
+
+	/**
+	 * Gera um token de sessão para o usuário dado.
+	 * @param user O usuário em questão.
+	 * @returns Um token de sessão para o usuário dado.
+	 */
 	private generateToken(user: User): SessionToken {
 		const base64 = (data: string) => Buffer.from(data).toString("base64");
 		const randomData = () => crypto.randomBytes(16).toString("base64");
@@ -72,6 +100,13 @@ export class AuthService {
 		return token;
 	}
 
+	/**
+	 * Cria uma hash SHA-256 da senha do usuário com a salt dada.
+	 * Essa hash deve ser guardada no banco como a senha do usuário.
+	 * @param plaintext A senha do usuário.
+	 * @param salt A salt da senha do usuário.
+	 * @returns A hash criada.
+	 */
 	private encodePassword(plaintext: string, salt: string) {
 		return crypto
 			.createHash("sha256")
@@ -80,32 +115,12 @@ export class AuthService {
 			.toString("base64");
 	}
 
+	/**
+	 * Gera o salt da senha. É um valor aleatório único para cada usuário, que deve ser guardado em plaintext no banco de dados.
+	 * Previne ataques de "rainbow table"
+	 * @returns Uma string aleatória.
+	 */
 	private generateSalt(): string {
 		return crypto.randomBytes(16).toString("base64");
-	}
-
-	/**
-	 * Salva .
-	 * @param auth - O objeto de auth a ser salvo.
-	 * @returns Uma Promise que diz se o valor foi cadastrado ou não.
-	 */
-	public async saveAuth(auth: Auth): Promise<Boolean> {
-		const authResponse = await this.authRepository.save(auth);
-		// fiz assim pois acho que nao cabe ficar andando por ai com o auth
-		if (authResponse === null) return false;
-
-		return true;
-	}
-
-	public async registerAuth(user: User, password: string): Promise<Boolean> {
-		const auth = new Auth();
-
-		auth.user = user.id;
-		auth.password_salt = this.generateSalt();
-		auth.password_hashed = this.encodePassword(password, auth.password_salt);
-
-		const authResponse = await this.saveAuth(auth);
-
-		return authResponse;
 	}
 }
