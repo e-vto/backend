@@ -1,10 +1,24 @@
-import { Column, Entity, OneToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from "typeorm";
+import {
+	Column,
+	Entity,
+	JoinColumn,
+	OneToOne,
+	PrimaryColumn,
+	PrimaryGeneratedColumn,
+	Unique,
+} from "typeorm";
 import { User } from "./user.entity.js";
 
 @Entity()
 export class Auth {
-	@PrimaryColumn({ type: "int" })
-	@OneToOne(() => User)
+	@PrimaryGeneratedColumn()
+	id: number;
+
+	/**
+	 * O usuário referido
+	 */
+	@OneToOne(() => User, user => user.id, { eager: true })
+	@JoinColumn()
 	user: User;
 
 	/**

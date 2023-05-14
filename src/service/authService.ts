@@ -3,36 +3,43 @@ import { SessionToken } from "../model/sessionToken.entity";
 import { User } from "../model/user.entity";
 import { Auth } from "../model/auth.entity";
 import { AppDataSource } from "../providers/dataSource";
-
-import crypto from "crypto";
 import { Logger } from "tslog";
+import crypto from "crypto";
 import dayjs from "dayjs";
 
 const logger = new Logger({ name: "authService" });
 
 export class AuthService {
-	private userRepository: Repository<User>;
 	private authRepository: Repository<Auth>;
 	private sessionTokenRepository: Repository<SessionToken>;
 
 	constructor() {
-		this.userRepository = AppDataSource.getRepository(User);
 		this.authRepository = AppDataSource.getRepository(Auth);
 		this.sessionTokenRepository = AppDataSource.getRepository(SessionToken);
 	}
 
 	/**
-	 * Determin
-	 * @param user
-	 * @returns
+	 * Retorna o usuário associado a um token de login.
 	 */
-	async isUserLoggedIn(user: User): Promise<boolean> {
-		return true;
+	async getUserFromSessionToken(token: string): Promise<User> {
+		const sessionToken = await this.sessionTokenRepository.findOne({
+			where: { token_value: token },
+		});
+
+		// Se o token não existir, ou se o token expirou, é inválido.
+		if (sessionToken === null || sessionToken.expires_at <= new Date()) {
+			throw new Error("Token de sessão inválido.");
+		}
+
+		return sessionToken.user;
 	}
 
-	async login(username: string, password_plaintext: string): Promise<SessionToken | null> {
+	async login(username: string, password_plaintext: string): Promise<SessionToken> {
 		// Por hora, o username é o CPF
-		const auth = await this.authRepository.findOne({ where: { user: { cpf: username } } });
+		const auth = await this.authRepository.findOne({
+			relations: ["user"],
+			where: { user: { cpf: username } },
+		});
 
 		if (auth === null) {
 			throw new Error("Informações de autenticação não cadastradas.");
@@ -52,7 +59,7 @@ export class AuthService {
 		logger.debug("Usuário autenticado:", auth.user.cpf);
 
 		// Remover tokens antigos para o usuário
-		await this.sessionTokenRepository.delete({ user: auth.user });
+		await this.sessionTokenRepository.delete({ user: { id: auth.user.id } });
 
 		// Criar um novo token
 		const token = this.generateToken(auth.user);
@@ -124,3 +131,5 @@ export class AuthService {
 		return crypto.randomBytes(16).toString("base64");
 	}
 }
+
+export const authService = new AuthService();

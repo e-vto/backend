@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { User } from "../model/user.entity";
 import { AppDataSource } from "../providers/dataSource";
-import { AuthService } from "./authService";
+import { authService } from "./authService";
 
 export class UserService {
 	private userRepository: Repository<User>;
@@ -22,29 +22,33 @@ export class UserService {
 	}
 
 	/**
-	 * Salva um usuário.
-	 * @param user - O objeto de usuário a ser salvo.
-	 * @returns Uma Promise que resolve para o usuário salvo.
-	 */
-	public async saveUser(user: User): Promise<User> {
-		return await this.userRepository.save(user);
-	}
-
-	/**
 	 * Registra um novo usuário.
 	 * @param user - O objeto de usuário a ser salvo.
 	 * @param password - A senha do usuário encriptada.
 	 * @returns Uma Promise que resolve para o usuário salvo.
 	 */
 	public async registerUser(user: User, password: string): Promise<User> {
-		const userResponse = await this.saveUser(user);
+		const queryRunner = await AppDataSource.createQueryRunner();
 
-		if (userResponse === null) {
-			throw new Error("Something got wrong on register the user");
+		await queryRunner.startTransaction();
+
+		try {
+			// Insere o usuário no banco de dados
+			const insertedUser = await this.userRepository.save(user);
+
+			// Define a senha para o usuário
+			await authService.setAuthInfoForUser(insertedUser, password);
+
+			await queryRunner.release();
+
+			return insertedUser;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			await queryRunner.release();
+
+			throw error;
 		}
-
-		await new AuthService().setAuthInfoForUser(userResponse, password);
-
-		return user;
 	}
 }
+
+export const userService = new UserService();

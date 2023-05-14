@@ -3,82 +3,75 @@ import {
 	Body,
 	Get,
 	Post,
-	Put,
-	Delete,
 	JsonController,
 	NotFoundError,
+	Authorized,
 } from "routing-controllers";
-import { UserService } from "../service/userService";
+import { userService } from "../service/userService";
+import { authService } from "../service/authService";
 import { User } from "../model/user.entity";
-import { UserRegisterDto } from "./dto/userDto";
-
-import { response } from "express";
+import { UserRegisterDto } from "./dto/UserRegisterDto";
+import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto";
+import { WithSessionUser } from "../providers/authorization";
 
 @JsonController()
 export class UserController {
-	private userService: UserService;
+	/**
+	 * Faz o cadastro de um usuário.
+	 * @param user
+	 * @returns
+	 */
+	@Post("/users/register")
+	async register(@Body() payload: UserRegisterDto) {
+		const userObj = new User();
 
-	constructor() {
-		this.userService = new UserService();
+		userObj.name = payload.name;
+		userObj.email = payload.email;
+		userObj.cpf = payload.cpf;
+		userObj.phone = payload.phone;
+		userObj.birthdate = new Date(payload.birthdate);
+
+		const password = payload.password;
+
+		const response = await userService.registerUser(userObj, password);
+
+		return response;
 	}
 
-	@Get("/users")
-	getAll() {
-		return "This action returns all users";
+	/**
+	 * Faz o login de um usuário.
+	 * O request body é composto de username e senha. Se a autenticação é
+	 * validada, retorna um SessionToken para o usuário. Esse SessionToken deve
+	 * ser usado para acessar endpoints que requerem login.
+	 */
+	@Post("/users/login")
+	async login(@Body() loginRequest: UserLoginDto): Promise<UserLoginResponseDto> {
+		const token = await authService.login(loginRequest.username, loginRequest.password);
+
+		return {
+			token: token.token_value,
+			expires_at: token.expires_at.toISOString(),
+		};
+	}
+
+	/**
+	 * Retorna o usuário atual. O usuário atual é o usuário correspondente ao
+	 * SessionToken do request.
+	 */
+	@Get("/users/@me")
+	@Authorized()
+	async getCurrentUser(@WithSessionUser() sessionUser: User): Promise<User> {
+		return sessionUser;
 	}
 
 	@Get("/users/:id")
 	async getOne(@Param("id") id: number) {
-		const user = await this.userService.getUser(id);
+		const user = await userService.getUser(id);
 
 		if (user === null) {
 			throw new NotFoundError("Usuário não encontrado.");
 		}
 
 		return user;
-	}
-
-	@Post("/users")
-	post(@Body() user: any) {
-		return "Saving user...";
-	}
-
-	@Post("/users/register")
-	register(@Body() user: UserRegisterDto) {
-		const userObj = new User();
-		userObj.name = user.name;
-		userObj.email = user.email;
-		userObj.cpf = user.cpf;
-		userObj.phone = user.phone;
-		userObj.birthdate = user.birthdate;
-
-		const password = user.password;
-
-		// https://stackoverflow.com/a/4121657
-		// https://github.com/typeorm/typeorm/blob/master/docs/transactions.md
-
-		// ::: CHAT :::
-		//
-		// class-validator
-		//   - decorador
-		//   - typescript
-		// zod
-		//   - typescript
-
-		// ainda tem q validar todos os dados;
-
-		const response = this.userService.registerUser(userObj, password);
-
-		return response;
-	}
-
-	@Put("/users/:id")
-	put(@Param("id") id: number, @Body() user: any) {
-		return "Updating a user...";
-	}
-
-	@Delete("/users/:id")
-	remove(@Param("id") id: number) {
-		return "Removing user...";
 	}
 }
