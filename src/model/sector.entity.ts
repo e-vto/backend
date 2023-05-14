@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity.js";
 import { Event } from "./event.entity.js";
 
@@ -14,6 +14,7 @@ export class Sector {
 	 * O evento onde o setor está cadastrado
 	 */
 	@OneToOne(() => Event)
+	@JoinColumn()
 	event: Event;
 
 	/**
@@ -26,5 +27,6 @@ export class Sector {
 	 * O usuário que criou este setor
 	 */
 	@OneToOne(() => User)
+	@JoinColumn()
 	created_by: User;
 }

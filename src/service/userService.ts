@@ -1,6 +1,7 @@
 import { Repository } from "typeorm";
 import { User } from "../model/user.entity";
 import { AppDataSource } from "../providers/dataSource";
+import { authService } from "./authService";
 
 export class UserService {
 	private userRepository: Repository<User>;
@@ -21,11 +22,33 @@ export class UserService {
 	}
 
 	/**
-	 * Salva um usuário.
+	 * Registra um novo usuário.
 	 * @param user - O objeto de usuário a ser salvo.
+	 * @param password - A senha do usuário encriptada.
 	 * @returns Uma Promise que resolve para o usuário salvo.
 	 */
-	public async saveUser(user: User): Promise<User> {
-		return await this.userRepository.save(user);
+	public async registerUser(user: User, password: string): Promise<User> {
+		const queryRunner = await AppDataSource.createQueryRunner();
+
+		await queryRunner.startTransaction();
+
+		try {
+			// Insere o usuário no banco de dados
+			const insertedUser = await this.userRepository.save(user);
+
+			// Define a senha para o usuário
+			await authService.setAuthInfoForUser(insertedUser, password);
+
+			await queryRunner.release();
+
+			return insertedUser;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			await queryRunner.release();
+
+			throw error;
+		}
 	}
 }
+
+export const userService = new UserService();

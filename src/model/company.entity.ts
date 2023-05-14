@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity.js";
 
 @Entity()
@@ -25,5 +25,6 @@ export class Company {
 	 * O usuário que é o responsável pela empresa
 	 */
 	@OneToOne(() => User)
+	@JoinColumn()
 	owner: User;
 }

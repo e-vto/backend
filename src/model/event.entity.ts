@@ -1,4 +1,4 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity.js";
 import { Company } from "./company.entity.js";
 
@@ -14,6 +14,7 @@ export class Event {
 	 * A empresa onde o evento está cadastrado
 	 */
 	@OneToOne(() => Company)
+	@JoinColumn()
 	company: Company;
 
 	/**
@@ -26,5 +27,6 @@ export class Event {
 	 * O usuário que criou este evento
 	 */
 	@OneToOne(() => User)
+	@JoinColumn()
 	created_by: User;
 }
