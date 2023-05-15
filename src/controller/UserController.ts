@@ -14,14 +14,14 @@ import { UserRegisterDto } from "./dto/UserRegisterDto";
 import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto";
 import { WithSessionUser } from "../providers/authorization";
 
-@JsonController()
+@JsonController("/users")
 export class UserController {
 	/**
 	 * Faz o cadastro de um usuário.
 	 * @param user
 	 * @returns
 	 */
-	@Post("/users/register")
+	@Post("/register")
 	async register(@Body() payload: UserRegisterDto) {
 		const userObj = new User();
 
@@ -44,7 +44,7 @@ export class UserController {
 	 * validada, retorna um SessionToken para o usuário. Esse SessionToken deve
 	 * ser usado para acessar endpoints que requerem login.
 	 */
-	@Post("/users/login")
+	@Post("/login")
 	async login(@Body() loginRequest: UserLoginDto): Promise<UserLoginResponseDto> {
 		const token = await authService.login(loginRequest.username, loginRequest.password);
 
@@ -58,13 +58,13 @@ export class UserController {
 	 * Retorna o usuário atual. O usuário atual é o usuário correspondente ao
 	 * SessionToken do request.
 	 */
-	@Get("/users/@me")
+	@Get("/@me")
 	@Authorized()
 	async getCurrentUser(@WithSessionUser() sessionUser: User): Promise<User> {
 		return sessionUser;
 	}
 
-	@Get("/users/:id")
+	@Get("/:id")
 	async getOne(@Param("id") id: number) {
 		const user = await userService.getUser(id);
 

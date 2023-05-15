@@ -3,9 +3,7 @@ import {
 	Entity,
 	JoinColumn,
 	OneToOne,
-	PrimaryColumn,
 	PrimaryGeneratedColumn,
-	Unique,
 } from "typeorm";
 import { User } from "./user.entity.js";
 

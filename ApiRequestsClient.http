@@ -1,5 +1,4 @@
-############################################################################### 
-### USAR EXTENSÃO [ Rest Client ] no VS Code! #################################
+# USAR EXTENSÃO [ Rest Client ] no VS Code!
 ###############################################################################
 
 @UrlBase = http://localhost:3000
@@ -10,7 +9,7 @@ POST {{UrlBase}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Harry Potter",
+	"name": "Harry Potter",
 	"email": "pottah@ministry.gov.uk",
 	"cpf": "11122233319",
 	"phone": "43999210522",
@@ -18,8 +17,6 @@ Content-Type: application/json
 	"password": "bettercallsaul"
 }
 
-###############################################################################
-###############################################################################
 ###############################################################################
 
 # Fazer login na aplicação
@@ -36,11 +33,30 @@ Content-Type: application/json
 }
 
 ###############################################################################
-###############################################################################
-###############################################################################
 
 # Retornar usuário atual (logado)
 # @name UsuarioAtual
 
 GET {{UrlBase}}/users/@me
 Authorization: {{LoginToken}}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# @name EventoCriar
+
+POST {{UrlBase}}/events
+Content-Type: application/json
+Authorization: {{LoginToken}}
+
+{
+	"name": "Inova Potter Minecraft 2021"
+}
+
+###############################################################################
+# @name ConsultarEvento
+
+@ConsultarEventoId = 2
+
+GET {{UrlBase}}/events/{{ConsultarEventoId}}

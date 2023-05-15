@@ -6,12 +6,13 @@ import { UserController } from "./controller/UserController.js";
 import { Logger } from "tslog";
 import type { Application } from "express";
 import { AuthorizationChecker } from "./providers/authorization.js";
+import { EventController } from "./controller/EventController.js";
 
 const logger = new Logger({ name: "main" });
 
 // creates express app, registers all controller routes and returns you express app instance
 const app: Application = createExpressServer({
-	controllers: [UserController], // we specify controllers we want to use
+	controllers: [UserController, EventController], // we specify controllers we want to use
 	authorizationChecker: AuthorizationChecker,
 });
 
