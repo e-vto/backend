@@ -1,0 +1,46 @@
+############################################################################### 
+### USAR EXTENSÃO [ Rest Client ] no VS Code! #################################
+###############################################################################
+
+@UrlBase = http://localhost:3000
+
+# Fazer cadastro na aplicação
+# @name RegistroDeUsuario
+POST {{UrlBase}}/users/register
+Content-Type: application/json
+
+{
+  "name": "Harry Potter",
+	"email": "pottah@ministry.gov.uk",
+	"cpf": "11122233319",
+	"phone": "43999210522",
+	"birthdate": "1999-12-31",
+	"password": "bettercallsaul"
+}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Fazer login na aplicação
+# @name LoginDeUsuario
+
+@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+POST {{UrlBase}}/users/login
+Content-Type: application/json
+
+{
+  "username": "11122233319",
+  "password": "bettercallsaul"
+}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Retornar usuário atual (logado)
+# @name UsuarioAtual
+
+GET {{UrlBase}}/users/@me
+Authorization: {{LoginToken}}
