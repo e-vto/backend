@@ -27,6 +27,9 @@ export class Sector {
 	 * O usuário que criou este setor
 	 */
 	@OneToOne(() => User)
-	@JoinColumn()
+	@JoinColumn({ name: "createdById" })
 	created_by: User;
+
+	@Column()
+	createdById: number;
 }

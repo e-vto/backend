@@ -5,8 +5,8 @@ export class GatewayService {
 	/**
 	 * Envia um chamado para todos os clientes conectados ao gateway.
 	 */
-	public createCall(call: Call) {
-		// ... GatewayServer.emit("call_new", {}); ...
+	public notifyNewCall(call: Call) {
+		GatewayServer.emit("call_new", call);
 	}
 }
 

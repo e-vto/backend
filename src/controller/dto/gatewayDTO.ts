@@ -1,3 +1,5 @@
+import type { Call } from "../../model/call.entity";
+
 /**
  * Define os tipos usados para todas as mensagens enviadas no sentido
  * gateway >>> socket.
@@ -12,11 +14,11 @@ export interface GatewayEventsToClient {
 	/**
 	 * Evento de quando um chamado é criado.
 	 */
-	call_new: () => void;
+	call_new: (call: Call) => void;
 
 	/**
 	 * Quando qualquer campo de um chamado existente for alterado. Por exemplo,
 	 * se um chamado for marcado como resolvido, esse evento é enviado.
 	 */
-	call_update: () => void;
+	call_update: (call: Call) => void;
 }

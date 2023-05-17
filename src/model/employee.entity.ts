@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity.js";
 import { Event } from "./event.entity.js";
 import { Role } from "./role.entity.js";
@@ -16,8 +16,11 @@ export class Employee {
 	 * A conta do usuário que este funcionário representa
 	 */
 	@OneToOne(() => User)
-	@JoinColumn()
+	@JoinColumn({ name: "userId" })
 	user: User;
+
+	@Column()
+	userId: number;
 
 	/**
 	 * O setor do evento que este funcionário está registrado

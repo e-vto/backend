@@ -1,5 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne } from "typeorm";
 import { Employee } from "./employee.entity";
+import { Event } from "./event.entity";
 import { Sector } from "./sector.entity";
 
 @Entity()
@@ -14,15 +15,31 @@ export class Call {
 	 * ID do autor do chamado
 	 */
 	@OneToOne(() => Employee, { nullable: true })
-	@JoinColumn()
+	@JoinColumn({ name: "authorId" })
 	author: Employee;
+
+	@Column()
+	authorId: number;
+
+	/**
+	 * ID do evento relacionado ao chamado
+	 */
+	@OneToOne(() => Event, { nullable: true })
+	@JoinColumn({ name: "eventId" })
+	event: Event;
+
+	@Column()
+	eventId: number;
 
 	/**
 	 * ID do setor relacionado ao chamado
 	 */
 	@OneToOne(() => Sector, { nullable: true })
-	@JoinColumn()
+	@JoinColumn({ name: "sectorId" })
 	sector: Sector;
+
+	@Column()
+	sectorId: number;
 
 	/**
 	 * Data e hora de criação do chamado
