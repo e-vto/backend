@@ -60,3 +60,4 @@ Authorization: {{LoginToken}}
 @ConsultarEventoId = 2
 
 GET {{UrlBase}}/events/{{ConsultarEventoId}}
+Authorization: {{LoginToken}}

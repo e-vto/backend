@@ -5,5 +5,6 @@ import { Event } from "./event.entity.js";
 import { Employee } from "./employee.entity.js";
 import { Auth } from "./auth.entity.js";
 import { SessionToken } from "./sessionToken.entity.js";
+import { Call } from "./call.entity.js";
 
-export default [User, Sector, Role, Event, Employee, Auth, SessionToken];
+export default [User, Sector, Role, Event, Employee, Auth, SessionToken, Call];

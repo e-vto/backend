@@ -5,7 +5,7 @@ import models from "../model";
 export const AppDataSource = new DataSource({
 	type: "better-sqlite3",
 	database: "wecon.sqlite",
-	synchronize: false, // true reseta o banco toda inicialização
+	synchronize: true, // true reseta o banco toda inicialização
 	logging: true,
 	entities: [...models],
 	subscribers: [],
