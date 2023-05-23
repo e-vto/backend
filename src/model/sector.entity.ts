@@ -14,8 +14,11 @@ export class Sector {
 	 * O evento onde o setor está cadastrado
 	 */
 	@OneToOne(() => Event)
-	@JoinColumn()
+	@JoinColumn({ name: "eventId"})
 	event: Event;
+
+	@Column()
+	eventId: number;
 
 	/**
 	 * O nome deste setor

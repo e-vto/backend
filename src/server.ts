@@ -1,6 +1,5 @@
 import { AuthorizationChecker } from "./providers/authorization.js";
-import { UserController } from "./controller/UserController.js";
-import { EventController } from "./controller/EventController.js";
+import controllers from "./controller/index.js";
 
 import { createExpressServer } from "routing-controllers";
 import type { Application } from "express";
@@ -9,7 +8,7 @@ import { Logger } from "tslog";
 const logger = new Logger({ name: "main" });
 
 const app: Application = createExpressServer({
-	controllers: [UserController, EventController], // we specify controllers we want to use
+	controllers: controllers, // we specify controllers we want to use
 	authorizationChecker: AuthorizationChecker,
 });
 
