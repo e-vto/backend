@@ -26,20 +26,29 @@ export class Employee {
 	 * O setor do evento que este funcionário está registrado
 	 */
 	@OneToOne(() => Sector)
-	@JoinColumn()
+	@JoinColumn({ name: "sectorId" })
 	sector: Sector;
+
+	@Column()
+	sectorId: number;
 
 	/**
 	 * O cargo deste funcionário
 	 */
 	@OneToOne(() => Role)
-	@JoinColumn()
+	@JoinColumn({ name: "roleId" })
 	role: Role;
+
+	@Column()
+	roleId: number;
 
 	/**
 	 * O evento onde o funcionário está cadastrado
 	 */
 	@OneToOne(() => Event)
-	@JoinColumn()
+	@JoinColumn({ name: "eventId" })
 	event: Event;
+
+	@Column()
+	eventId: number;
 }
