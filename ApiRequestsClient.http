@@ -57,7 +57,118 @@ Authorization: {{LoginToken}}
 ###############################################################################
 # @name ConsultarEvento
 
-@ConsultarEventoId = 2
+@ConsultarEventoId = 1
 
 GET {{UrlBase}}/events/{{ConsultarEventoId}}
+Authorization: {{LoginToken}}
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Cria uma nova Setor
+# @name NovoSetor
+
+POST {{UrlBase}}/sector/register
+Content-Type: application/json
+Authorization: {{LoginToken}}
+
+{
+	"event": 1,
+	"name": "Segurança"
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Pega os setores de um evento
+# @name SetorEvento
+@EventoId = 1
+
+GET {{UrlBase}}/sector/{{EventoId}}
+Authorization: {{LoginToken}}
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Cria uma nova Role
+# @name NovaRole
+
+POST {{UrlBase}}/role/register
+Content-Type: application/json
+Authorization: {{LoginToken}}
+
+{
+	"name": "protagonista",
+	"eventId": 1
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Pega os role de um evento
+# @name roleEvento
+@EventoId = 1
+
+GET {{UrlBase}}/role/{{EventoId}}
+Authorization: {{LoginToken}}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Cria uma nova Employee
+# @name NovoEmployee
+
+POST {{UrlBase}}/employee/register
+Content-Type: application/json
+Authorization: {{LoginToken}}
+
+{
+	"userId": 1,
+	"sectorId": 1,
+	"eventId": 1,
+	"roleId": 1
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Pega os employee de um evento
+# @name employeeEvento
+@EventoId = 1
+
+GET {{UrlBase}}/employee/{{EventoId}}
+Authorization: {{LoginToken}}
+
+
+###############################################################################
+###############################################################################
+###############################################################################
+# Cria uma nova Call
+# @name NovaCall
+
+POST {{UrlBase}}/call/register
+Content-Type: application/json
+Authorization: {{LoginToken}}
+
+{
+	"event": 1,
+	"sector": 1,
+	"content": "O harry coloco o nome no pote"
+}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Verifica todas as calls de um evento
+# @name CallEvento
+
+@EventoId = 1
+
+GET {{UrlBase}}/call/{{EventoId}}
 Authorization: {{LoginToken}}
