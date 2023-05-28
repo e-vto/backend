@@ -14,8 +14,11 @@ export class Role {
 	 * O evento onde o cargo está cadastrado
 	 */
 	@OneToOne(() => Event)
-	@JoinColumn()
+	@JoinColumn({ name: "eventId" })
 	event: Event;
+
+	@Column()
+	eventId: number;
 
 	/**
 	 * O nome deste cargo
