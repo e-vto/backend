@@ -4,6 +4,7 @@ import { Logger } from "tslog";
 import { User } from "../model/user.entity";
 import { Call } from "../model/call.entity";
 import { gatewayService } from "./gatewayService";
+import CallDto from "../controller/dto/CallDTO";
 
 const logger = new Logger({ name: "CallService" });
 
@@ -17,17 +18,12 @@ export class CallService {
 	/**
 	 * Registra um novo chamado. Todos os clientes conectados são notificados.
 	 */
-	public async createCall(
-		authorId: number,
-		eventId: number,
-		sectorId: number,
-		content: string
-	): Promise<Call> {
+	public async createCall(callDto: CallDto): Promise<Call> {
 		let call = this.callRepository.create({
-			authorId: authorId,
-			eventId: eventId,
-			sectorId: sectorId,
-			content: content,
+			author: callDto.author,
+			eventId: callDto.event,
+			sectorId: callDto.sector,
+			content: callDto.content,
 			creation_datetime: new Date(),
 			resolved: false,
 		});
@@ -48,6 +44,15 @@ export class CallService {
 		const events = await this.callRepository.find({ where: { eventId: eventId } });
 
 		return events;
+	}
+
+	/**
+	 * Retorna todas as calls na table.
+	 * @returns Todas as calls na table.
+	 */
+	public async getAll(): Promise<Call[]>{
+		const calls = await this.callRepository.find();
+		return calls
 	}
 }
 

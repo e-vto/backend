@@ -64,4 +64,14 @@ export class Call {
 	 */
 	@Column({ type: "datetime", nullable: true })
 	resolved_datetime: Date;
+
+	// /**
+	//  * ID do autor do chamado
+	//  */
+	// @OneToOne(() => Employee, { nullable: true })
+	// @JoinColumn({ name: "resolvedById" })
+	// resolvedBy: Employee;
+
+	// @Column({nullable: true})
+	// resolvedById: number;
 }
