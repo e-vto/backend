@@ -39,10 +39,6 @@ export const AuthorizationChecker: C = async (action: Action, roles: any[]) => {
 		// Receber o usuário associado ao sessiontoken
 		const user = await authService.getUserFromSessionToken(token);
 
-		// TODO: implementar sistemas de roles/cargos/permissões, para deixar o
-		// acesso mais granular
-		// por hora, se o usuário existe, está logado
-
 		return true;
 	} catch (error) {
 		logger.warn("Request forneceu um token de sessão inválido.", token);
