@@ -37,4 +37,11 @@ export class User {
 	 */
 	@Column("date")
 	birthdate: Date;
+
+	/**
+	 * Telefone celular.
+	 */
+	@Column({ length: 1 })
+	sexo: string;
+	
 }
