@@ -23,7 +23,10 @@ export class OpenIaService {
 		const params: ChatCompletionCreateParams = {
 			model: "gpt-3.5-turbo",
 			messages: [{ role: "user", content: text }],
-			functions: [],
+			functions: [functions],
+			max_tokens: 5, 		// idk que numero colocar
+			temperature: 0.2,   // between 0 and 2
+
 		};
 
 		const response = this.openIAApi.chat.completions.create(params);
@@ -33,7 +36,7 @@ export class OpenIaService {
 	 * Retorna a estruturação necessária para o retorno da API.
 	 * @returns retorna a estrutura para a API
 	 */
-	public defineApiReturn(): Object {
+	public defineApiReturn(): ChatCompletionCreateParams.Function {
 		const params = {
 			type: "object",
 			properties: {
@@ -63,7 +66,7 @@ export class OpenIaService {
 					description: "The main content of the class",
 				},
 			},
-			required: ["location"],
+			required: ["theme","objectives","duration","hability","method","content"],
 		};
 
 		const structure = {
