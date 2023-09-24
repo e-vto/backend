@@ -1,5 +1,6 @@
 import OpenAI from "openai";
-import { ChatCompletionCreateParams } from "openai/resources/chat";
+import { ChatCompletion, ChatCompletionCreateParams } from "openai/resources/chat";
+import { LessonPlan } from "../model/lessonPlan.entity";
 
 export class OpenIaService {
 	private openIAApi: OpenAI;
@@ -17,7 +18,7 @@ export class OpenIaService {
 	 * @param text texto a ser enviado.
 	 * @returns retorna a resposta obtida pela API
 	 */
-	public async makeRequest(text: string): Promise<any> {
+	public async makeRequest(text: string): Promise<ChatCompletion>{
         const functions = this.defineApiReturn();
 
 		const params: ChatCompletionCreateParams = {
@@ -30,6 +31,12 @@ export class OpenIaService {
 		};
 
 		const response = this.openIAApi.chat.completions.create(params);
+
+		const test = (await response).object;
+
+		console.log(test);
+
+		return response;
 	}
 
 	/**
@@ -43,36 +50,32 @@ export class OpenIaService {
 				theme: {
 					type: "string",
 					description:
-						"This may contain the theme of the lesson plan, like: 'Loop and Conditios in Computer Science'",
+						"Aqui deve-se conter o tema principal da aula, por exemplo: 'Laços e Condicionais na Computação'",
 				},
 				objectives: {
 					type: "string",
-					description: "This may contain the objectives aborded in lesson plan",
+					description: "Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
 				},
 				duration: {
 					type: "string",
-					description: "How many time the class will take",
-				},
-				hability: {
-					type: "string",
-					description: "The hability that the student will improve in this lesson",
+					description: "Quanto tempo de aula será necessário",
 				},
 				method: {
 					type: "string",
-					description: "Witch kind of methodology",
+					description: "Qual o tipo de metodologia será abordada",
 				},
 				content: {
 					type: "string",
-					description: "The main content of the class",
+					description: "O conteúdo principal do plano de aula",
 				},
 			},
-			required: ["theme","objectives","duration","hability","method","content"],
+			required: ["theme","objectives","duration","method","content"],
 		};
 
 		const structure = {
 			name: "returnResponse",
 			description:
-				"This function is responsible to return the function in te corect estructure to frontend",
+				"This function is responsible to return the function in te corect estructure to backend",
 			parameters: { params },
 		};
 
