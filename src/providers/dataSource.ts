@@ -3,8 +3,12 @@ import { DataSource } from "typeorm";
 import models from "../model";
 
 export const AppDataSource = new DataSource({
-	type: "better-sqlite3",
-	database: "wecon.sqlite",
+	type: "postgres",
+	host: "db.rwrvbshcatxetwicgdmo.supabase.co",
+    port: 5432,
+    username: "postgres",
+    password: process.env.DB_KEY,
+	database: "postgres",
 	synchronize: true,
 	logging: true,
 	entities: [...models],
