@@ -10,9 +10,10 @@ POST {{UrlBase}}/users/register
 Content-Type: application/json
 
 {
-  "name": "Harry Potter",
+  	"name": "Harry Potter",
 	"email": "pottah@ministry.gov.uk",
 	"cpf": "11122233319",
+	"sexo": "M",
 	"phone": "43999210522",
 	"birthdate": "1999-12-31",
 	"password": "bettercallsaul"
@@ -44,3 +45,20 @@ Content-Type: application/json
 
 GET {{UrlBase}}/users/@me
 Authorization: {{LoginToken}}
+
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Cria um plano de aula
+# @name CreateClassPlan
+
+#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+#POST {{UrlBase}}/plan/create
+GET {{UrlBase}}/plan/create
+Content-Type: application/json
+
+###############################################################################
+###############################################################################
+###############################################################################

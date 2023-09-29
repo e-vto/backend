@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 import { ChatCompletion, ChatCompletionCreateParams } from "openai/resources/chat";
 import { LessonPlan } from "../model/lessonPlan.entity";
-
 export class OpenIaService {
 	private openIAApi: OpenAI;
 
@@ -25,10 +24,13 @@ export class OpenIaService {
 			model: "gpt-3.5-turbo",
 			messages: [{ role: "user", content: text }],
 			functions: [functions],
-			max_tokens: 5, 		// idk que numero colocar
-			temperature: 0.2,   // between 0 and 2
-
+			function_call: {"name": "returnResponse"},
+			max_tokens: 1300, 		// idk que numero colocar
+			temperature: 0.5,   // between 0 and 2
+			frequency_penalty: 1
 		};
+
+		console.log(params);
 
 		const response = this.openIAApi.chat.completions.create(params);
 
@@ -45,7 +47,7 @@ export class OpenIaService {
 	 */
 	public defineApiReturn(): ChatCompletionCreateParams.Function {
 		const params = {
-			type: "object",
+			"type": "object",
 			properties: {
 				theme: {
 					type: "string",
@@ -67,17 +69,19 @@ export class OpenIaService {
 				content: {
 					type: "string",
 					description: "O conteúdo principal do plano de aula",
-				},
+				}
 			},
 			required: ["theme","objectives","duration","method","content"],
 		};
 
-		const structure = {
+		const structure : ChatCompletionCreateParams.Function = {
 			name: "returnResponse",
 			description:
 				"This function is responsible to return the function in te corect estructure to backend",
-			parameters: { params },
+			parameters: params
 		};
+
+		console.log(structure);
 
 		return structure;
 	}
