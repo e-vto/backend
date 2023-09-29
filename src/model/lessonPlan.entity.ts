@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, Entity, IntegerType, JoinColumn, OneToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
 import { User } from "./user.entity.js";
 
 @Entity()
@@ -50,19 +50,19 @@ export class LessonPlan {
 	 * Nível de detalhamento
 	 */
     @Column()
-    detail: Float32Array;
+    detail: Number;
 
     /**
 	 * Nível de criatividade (temperature)
 	 */
     @Column()
-    creativity: Float32Array; // esse tipo deve estar errado
+    creativity: Number; // esse tipo deve estar errado
 
     /**
 	 * Tamanho em quantidade de palavras
 	 */
     @Column()
-    size: Int16Array;
+    size: Number;
 
     /**
 	 * Nível de detalhamento
