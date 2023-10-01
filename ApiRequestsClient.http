@@ -50,7 +50,19 @@ Authorization: {{LoginToken}}
 ###############################################################################
 ###############################################################################
 
-# Cria um plano de aula
+# Envia um e-mail de reset de senha
+# @name ResetPassword
+
+#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+POST {{UrlBase}}/users/reset/password
+#GET {{UrlBase}}/users/reset/password
+Content-Type: application/json
+
+
+###############################################################################
+###############################################################################
+################################################################################ Cria um plano de aula
 # @name CreateClassPlan
 
 #@LoginToken = {{LoginDeUsuario.response.body.$.token}}
