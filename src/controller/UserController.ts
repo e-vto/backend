@@ -30,8 +30,6 @@ export class UserController {
 		userObj.email = payload.email;
 		userObj.cpf = payload.cpf;
 		userObj.phone = payload.phone;
-		userObj.birthdate = new Date(payload.birthdate);
-		userObj.sexo = payload.sexo;
 
 		const password = payload.password;
 

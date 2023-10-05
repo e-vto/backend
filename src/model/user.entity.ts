@@ -31,17 +31,5 @@ export class User {
 	 */
 	@Column({ length: 13, unique: true })
 	phone: string;
-
-	/**
-	 * Data de nascimento do usuário
-	 */
-	@Column("date")
-	birthdate: Date;
-
-	/**
-	 * Telefone celular.
-	 */
-	@Column({ length: 1 })
-	sexo: string;
 	
 }

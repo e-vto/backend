@@ -11,14 +11,8 @@ export class UserRegisterDto {
 	@Length(11)
 	cpf: string;
 
-	@IsString()
-	sexo: string;
-
 	@IsPhoneNumber("BR")
 	phone: string;
-
-	@IsDateString()
-	birthdate: string;
 
 	@IsString()
 	password: string;
