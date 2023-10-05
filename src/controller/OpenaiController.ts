@@ -2,6 +2,7 @@ import { Body, Get, JsonController, Post, Authorized } from "routing-controllers
 import OpenaiPayloadDto from "./dto/OpenaiPayloadDto";
 import { OpenIaService } from "../service/openaiService";
 import { Logger } from "tslog";
+import OpenaiResponseDto from "./dto/OpenaiResponseDto";
 
 @JsonController()
 export default class OpenaiController {
@@ -12,7 +13,7 @@ export default class OpenaiController {
 	 */
 	@Post("/plan/create")
 	//@Authorized()
-	async register(@Body() payload: OpenaiPayloadDto) {
+	async register(@Body() payload: OpenaiPayloadDto) { // : OpenaiResponseDto
 		const openai = new OpenIaService();
 
 		const reqMessage =

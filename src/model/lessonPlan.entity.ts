@@ -17,34 +17,22 @@ export class LessonPlan {
 	user: User;
 
     /**
-	* Tema da aula vindo do GPT
-	*/
-    @Column()
-    theme: string;
+	 * Ementa da matéria
+	 */
+    @Column({comment: "EMENTA"})
+    syllabus: string;
 
     /**
-	* Objetivos da aula vindo do GPT
-	*/
-    @Column()
-    objectives: string;
-
-    /**
-	* Duração da aula vindo do GPT
-	*/
-    @Column()
-    duration: string;
-
-    /**
-	* Método da aula vindo do GPT
-	*/
-    @Column()
-    method: string;
-
-    /**
-	* Conteúdo da aula vindo do GPT
-	*/
+	 * Conteúdo formativo da aula
+	 */
     @Column()
     content: string;
+
+    /**
+	 * Quantidade de aulas disponíveis
+	 */
+    @Column()
+    classesQuantity: number;
 
     /**
 	 * Nível de detalhamento

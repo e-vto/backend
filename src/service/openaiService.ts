@@ -22,8 +22,8 @@ export class OpenIaService {
 		const functions = this.defineApiReturn();
 
 		const params: ChatCompletionCreateParams = {
-			model: "gpt-3.5-turbo",
-			//model: "gpt-3.5-turbo-16k",
+			//model: "gpt-3.5-turbo",
+			model: "gpt-3.5-turbo-16k",
 			messages: [
 				{
 					role: "system",
@@ -34,9 +34,9 @@ export class OpenIaService {
 			],
 			functions: [functions],
 			function_call: { name: "returnResponse" },
-			max_tokens: 4097, // idk que numero colocar
+			max_tokens: 16097, // idk que numero colocar
 			temperature: 0.5, // between 0 and 2
-			frequency_penalty: 1,
+			//frequency_penalty: 1,
 		};
 
 		console.log(params);
