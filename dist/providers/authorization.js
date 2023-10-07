@@ -1,7 +1,19 @@
-import { createParamDecorator } from "routing-controllers";
-import { authService } from "../service/authService";
-import { Logger } from "tslog";
-const logger = new Logger({ name: "AuthorizationChecler" });
+"use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.WithSessionUser = exports.AuthorizationChecker = void 0;
+const routing_controllers_1 = require("routing-controllers");
+const authService_1 = require("../service/authService");
+const tslog_1 = require("tslog");
+const logger = new tslog_1.Logger({ name: "AuthorizationChecler" });
 /**
  * O decorador @Authorized é usado para definir a autorização de acesso a uma
  * determinado endpoint ou método de um controlador. Ele permite restringir o
@@ -19,7 +31,7 @@ const logger = new Logger({ name: "AuthorizationChecler" });
  *
  * Essa implementação integra com nosso sistema de SessionToken.
  */
-export const AuthorizationChecker = async (action, roles) => {
+const AuthorizationChecker = (action, roles) => __awaiter(void 0, void 0, void 0, function* () {
     const req = action.request;
     const res = action.response;
     const token = req.headers.authorization;
@@ -29,7 +41,7 @@ export const AuthorizationChecker = async (action, roles) => {
     }
     try {
         // Receber o usuário associado ao sessiontoken
-        const user = await authService.getUserFromSessionToken(token);
+        const user = yield authService_1.authService.getUserFromSessionToken(token);
         return true;
     }
     catch (error) {
@@ -37,27 +49,30 @@ export const AuthorizationChecker = async (action, roles) => {
         logger.warn(error);
         return false;
     }
-};
+});
+exports.AuthorizationChecker = AuthorizationChecker;
 /**
  * Implementação do decorador @WithSessionUser que resolve para o usuário
  * correspondente ao token atual.
  *
  * @returns {User | null}
  */
-export const WithSessionUser = () => {
-    const decorator = createParamDecorator({
+const WithSessionUser = () => {
+    const decorator = (0, routing_controllers_1.createParamDecorator)({
         required: true,
-        value: async (action) => {
+        value: (action) => __awaiter(void 0, void 0, void 0, function* () {
             const token = action.request.headers["authorization"];
             try {
-                const user = await authService.getUserFromSessionToken(token);
+                const user = yield authService_1.authService.getUserFromSessionToken(token);
                 console.log(user);
                 return user;
             }
             catch (error) {
                 return null;
             }
-        },
+        }),
     });
     return decorator;
 };
+exports.WithSessionUser = WithSessionUser;
+//# sourceMappingURL=authorization.js.map

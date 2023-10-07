@@ -3,7 +3,6 @@ import { ChatCompletion, ChatCompletionCreateParams } from "openai/resources/cha
 import { LessonPlan } from "../model/lessonPlan.entity";
 export class OpenIaService {
 	private openIAApi: OpenAI;
-	private;
 
 	constructor() {
 		const config = {
