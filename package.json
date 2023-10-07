@@ -1,9 +1,10 @@
 {
 	"scripts": {
+		"start": "node src/index.ts",
 		"build": "rimraf dist && tsc",
-		"start": "node --experimental-specifier-resolution=node dist/index.js",
 		"ts.check": "tsc --project tsconfig.json",
-  		"add-build": "git add dist"
+		"add-build": "git add dist",
+		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"type": "module",
 	"dependencies": {
