@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,71 +10,52 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const routing_controllers_1 = require("routing-controllers");
-const OpenaiPayloadDto_1 = __importDefault(require("./dto/OpenaiPayloadDto"));
-const openaiService_1 = require("../service/openaiService");
+import { Body, Get, JsonController, Post } from "routing-controllers";
+import OpenaiPayloadDto from "./dto/OpenaiPayloadDto";
+import { OpenIaService } from "../service/openaiService";
 let OpenaiController = class OpenaiController {
     /**
      * Envia a requisição do plano para a openai.
      * @param openaiPayload - Objeto com as informações para a API da Openai
      * @returns plandto
      */
-    register(payload) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const openai = new openaiService_1.OpenIaService();
-            const reqMessage = `Ementa: ${payload.syllabus} \n
+    //@Authorized()
+    async register(payload) {
+        const openai = new OpenIaService();
+        const reqMessage = `Ementa: ${payload.syllabus} \n
 			Conteudos Formativos: ${payload.content} \n
 			Serão dividos em ${payload.classesQuantity} encontros`;
-            const response = openai.makeRequest(reqMessage);
-            yield console.log(response);
-            return response;
-        });
+        const response = openai.makeRequest(reqMessage);
+        await console.log(response);
+        return response;
     }
-    getUserPlans() {
-        return __awaiter(this, void 0, void 0, function* () { });
-    }
-    ping() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return 'pong 🏓';
-        });
+    async getUserPlans() { }
+    async ping() {
+        return 'pong 🏓';
     }
 };
 __decorate([
-    (0, routing_controllers_1.Post)("/plan/create")
+    Post("/plan/create")
     //@Authorized()
     ,
-    __param(0, (0, routing_controllers_1.Body)()),
+    __param(0, Body()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [OpenaiPayloadDto_1.default]),
+    __metadata("design:paramtypes", [OpenaiPayloadDto]),
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "register", null);
 __decorate([
-    (0, routing_controllers_1.Get)("/plan/:id"),
+    Get("/plan/:id"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "getUserPlans", null);
 __decorate([
-    (0, routing_controllers_1.Get)("/ping"),
+    Get("/ping"),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "ping", null);
 OpenaiController = __decorate([
-    (0, routing_controllers_1.JsonController)()
+    JsonController()
 ], OpenaiController);
-exports.default = OpenaiController;
-//# sourceMappingURL=OpenaiController.js.map
+export default OpenaiController;

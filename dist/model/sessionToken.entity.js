@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,27 +7,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SessionToken = void 0;
-const typeorm_1 = require("typeorm");
-const user_entity_js_1 = require("./user.entity.js");
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { User } from "./user.entity.js";
 let SessionToken = class SessionToken {
+    /**
+     * Identificador único do token.
+     */
+    token_id;
+    /**
+     * Valor único do token.
+     */
+    token_value;
+    /**
+     * Usuário associado ao token de sessão.
+     */
+    user;
+    /**
+     * Data de criação do token.
+     */
+    created_at;
+    /**
+     * Data de expiração do token.
+     */
+    expires_at;
 };
 __decorate([
-    (0, typeorm_1.PrimaryGeneratedColumn)(),
+    PrimaryGeneratedColumn(),
     __metadata("design:type", Number)
 ], SessionToken.prototype, "token_id", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ unique: true }),
+    Column({ unique: true }),
     __metadata("design:type", String)
 ], SessionToken.prototype, "token_value", void 0);
 __decorate([
-    (0, typeorm_1.OneToOne)(() => user_entity_js_1.User, { eager: true }),
-    (0, typeorm_1.JoinColumn)(),
-    __metadata("design:type", user_entity_js_1.User)
+    OneToOne(() => User, { eager: true }),
+    JoinColumn(),
+    __metadata("design:type", User)
 ], SessionToken.prototype, "user", void 0);
 SessionToken = __decorate([
-    (0, typeorm_1.Entity)()
+    Entity()
 ], SessionToken);
-exports.SessionToken = SessionToken;
-//# sourceMappingURL=sessionToken.entity.js.map
+export { SessionToken };

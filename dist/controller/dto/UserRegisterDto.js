@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,31 +7,32 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRegisterDto = void 0;
-const class_validator_1 = require("class-validator");
-class UserRegisterDto {
+import { IsString, IsEmail, IsPhoneNumber, Length } from "class-validator";
+export class UserRegisterDto {
+    name;
+    email;
+    cpf;
+    phone;
+    password;
 }
 __decorate([
-    (0, class_validator_1.IsString)(),
+    IsString(),
     __metadata("design:type", String)
 ], UserRegisterDto.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.IsEmail)(),
+    IsEmail(),
     __metadata("design:type", String)
 ], UserRegisterDto.prototype, "email", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
-    (0, class_validator_1.Length)(11),
+    IsString(),
+    Length(11),
     __metadata("design:type", String)
 ], UserRegisterDto.prototype, "cpf", void 0);
 __decorate([
-    (0, class_validator_1.IsPhoneNumber)("BR"),
+    IsPhoneNumber("BR"),
     __metadata("design:type", String)
 ], UserRegisterDto.prototype, "phone", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    IsString(),
     __metadata("design:type", String)
 ], UserRegisterDto.prototype, "password", void 0);
-exports.UserRegisterDto = UserRegisterDto;
-//# sourceMappingURL=UserRegisterDto.js.map

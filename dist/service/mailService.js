@@ -1,10 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const node_mailjet_1 = __importDefault(require("node-mailjet"));
-class MailService {
+import Mailjet from 'node-mailjet';
+export default class MailService {
+    public_key;
+    private_key;
     //private mailJet;
     constructor() {
         const public_key = String(process.env.MJ_APIKEY_PUBLIC);
@@ -18,7 +15,7 @@ class MailService {
      * @param mail - Email do destinatario
      */
     sendEmail(mail) {
-        const mailjet = new node_mailjet_1.default({
+        const mailjet = new Mailjet({
             apiKey: process.env.MJ_APIKEY_PUBLIC,
             apiSecret: process.env.MJ_APIKEY_PRIVATE,
             options: {
@@ -60,5 +57,3 @@ class MailService {
         });
     }
 }
-exports.default = MailService;
-//# sourceMappingURL=mailService.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,21 +7,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-const class_validator_1 = require("class-validator");
-class OpenaiPayloadDto {
+import { IsString, IsNumber } from "class-validator";
+export default class OpenaiPayloadDto {
+    // ementa
+    syllabus;
+    content;
+    classesQuantity;
 }
 __decorate([
-    (0, class_validator_1.IsString)(),
+    IsString(),
     __metadata("design:type", String)
 ], OpenaiPayloadDto.prototype, "syllabus", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    IsString(),
     __metadata("design:type", String)
 ], OpenaiPayloadDto.prototype, "content", void 0);
 __decorate([
-    (0, class_validator_1.IsNumber)(),
+    IsNumber(),
     __metadata("design:type", Number)
 ], OpenaiPayloadDto.prototype, "classesQuantity", void 0);
-exports.default = OpenaiPayloadDto;
-//# sourceMappingURL=OpenaiPayloadDto.js.map
