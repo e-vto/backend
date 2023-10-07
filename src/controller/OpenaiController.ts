@@ -30,4 +30,9 @@ export default class OpenaiController {
 
 	@Get("/plan/:id")
 	async getUserPlans() {}
+
+	@Get("/ping")
+	async ping() {
+		return 'pong 🏓'
+	}
 }
