@@ -1,5 +1,5 @@
 import { User } from "../model/user.entity.js";
-import { AppDataSource } from "../providers/dataSource";
+import { AppDataSource } from "../providers/dataSource.js";
 import { authService } from "./authService.js";
 export class UserService {
     userRepository;
