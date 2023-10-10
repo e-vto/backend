@@ -1,9 +1,9 @@
 import { Action, createParamDecorator } from "routing-controllers";
 import type { AuthorizationChecker as C } from "routing-controllers/types/AuthorizationChecker";
 import type { Request, Response } from "express";
-import { authService } from "../service/authService";
+import { authService } from "../service/authService.js";
 import { Logger } from "tslog";
-import { User } from "../model/user.entity";
+import { User } from "../model/user.entity.js";
 
 const logger = new Logger({ name: "AuthorizationChecler" });
 
