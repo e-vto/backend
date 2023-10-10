@@ -11,8 +11,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 import { Body, Get, JsonController, Post } from "routing-controllers";
-import OpenaiPayloadDto from "./dto/OpenaiPayloadDto";
-import { OpenIaService } from "../service/openaiService";
+import OpenaiPayloadDto from "./dto/OpenaiPayloadDto.js";
+import { OpenIaService } from "../service/openaiService.js";
 let OpenaiController = class OpenaiController {
     /**
      * Envia a requisição do plano para a openai.

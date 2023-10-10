@@ -1,5 +1,5 @@
 import { createParamDecorator } from "routing-controllers";
-import { authService } from "../service/authService";
+import { authService } from "../service/authService.js";
 import { Logger } from "tslog";
 const logger = new Logger({ name: "AuthorizationChecler" });
 /**

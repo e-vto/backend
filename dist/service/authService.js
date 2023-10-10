@@ -1,6 +1,6 @@
-import { SessionToken } from "../model/sessionToken.entity";
-import { Auth } from "../model/auth.entity";
-import { AppDataSource } from "../providers/dataSource";
+import { SessionToken } from "../model/sessionToken.entity.js";
+import { Auth } from "../model/auth.entity.js";
+import { AppDataSource } from "../providers/dataSource.js";
 import { Logger } from "tslog";
 import crypto from "crypto";
 import dayjs from "dayjs";

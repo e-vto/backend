@@ -11,13 +11,13 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 import { Param, Body, Get, Post, JsonController, NotFoundError, Authorized, } from "routing-controllers";
-import { userService } from "../service/userService";
-import { authService } from "../service/authService";
-import { User } from "../model/user.entity";
-import { UserRegisterDto } from "./dto/UserRegisterDto";
-import { UserLoginDto } from "./dto/UserLoginDto";
-import { WithSessionUser } from "../providers/authorization";
-import MailService from "../service/mailService";
+import { userService } from "../service/userService.js";
+import { authService } from "../service/authService.js";
+import { User } from "../model/user.entity.js";
+import { UserRegisterDto } from "./dto/UserRegisterDto.js";
+import { UserLoginDto } from "./dto/UserLoginDto.js";
+import { WithSessionUser } from "../providers/authorization.js";
+import MailService from "../service/mailService.js";
 let UserController = class UserController {
     /**
      * Faz o cadastro de um usuário.
