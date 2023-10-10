@@ -1,4 +1,4 @@
-import { AppDataSource } from "../providers/dataSource.js";
+import { AppDataSource } from "../providers/dataSource";
 import { LessonPlan } from "../model/lessonPlan.entity.js";
 export class LessonPlanService {
     lessonPlanRepository;

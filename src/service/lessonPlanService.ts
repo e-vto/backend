@@ -1,5 +1,5 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../providers/dataSource.js";
+import { AppDataSource } from "../providers/dataSource";
 import { LessonPlan } from "../model/lessonPlan.entity.js";
 import { User } from "../model/user.entity.js";
 
