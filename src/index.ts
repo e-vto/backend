@@ -16,7 +16,7 @@ const logger = new Logger({ name: "main" });
 const app: Application = createExpressServer({
 	controllers: [UserController, OpenaiController], // we specify controllers we want to use
 	authorizationChecker: AuthorizationChecker,
-}).listen(3000);
+});
 
 // run express application on port 3000
 app.listen(process.env.PORT ?? 3000, () => {
