@@ -1,9 +1,9 @@
 import { Action, createParamDecorator } from "routing-controllers";
 import type { AuthorizationChecker as C } from "routing-controllers/types/AuthorizationChecker";
 import type { Request, Response } from "express";
-import { authService } from "../service/authService.js";
+import { authService } from "../service/authService";
 import { Logger } from "tslog";
-import { User } from "../model/user.entity.js";
+import { User } from "../model/user.entity";
 
 const logger = new Logger({ name: "AuthorizationChecler" });
 
@@ -38,6 +38,10 @@ export const AuthorizationChecker: C = async (action: Action, roles: any[]) => {
 	try {
 		// Receber o usuário associado ao sessiontoken
 		const user = await authService.getUserFromSessionToken(token);
+
+		// TODO: implementar sistemas de roles/cargos/permissões, para deixar o
+		// acesso mais granular
+		// por hora, se o usuário existe, está logado
 
 		return true;
 	} catch (error) {

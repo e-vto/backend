@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
-import { User } from "../model/user.entity.js";
-import { AppDataSource } from "../providers/dataSource.js";
-import { authService } from "./authService.js";
+import { User } from "../model/user.entity";
+import { AppDataSource } from "../providers/dataSource";
+import { authService } from "./authService";
 
 export class UserService {
 	private userRepository: Repository<User>;

@@ -1,4 +1,4 @@
-import { IsString, IsEmail, IsPhoneNumber, Length, IsDateString, isString } from "class-validator";
+import { IsString, IsEmail, IsPhoneNumber, Length, IsDateString } from "class-validator";
 
 export class UserRegisterDto {
 	@IsString()
@@ -13,6 +13,9 @@ export class UserRegisterDto {
 
 	@IsPhoneNumber("BR")
 	phone: string;
+
+	@IsDateString()
+	birthdate: string;
 
 	@IsString()
 	password: string;

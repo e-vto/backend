@@ -1,8 +1,8 @@
 import { Repository } from "typeorm";
-import { SessionToken } from "../model/sessionToken.entity.js";
-import { User } from "../model/user.entity.js";
-import { Auth } from "../model/auth.entity.js";
-import { AppDataSource } from "../providers/dataSource.js";
+import { SessionToken } from "../model/sessionToken.entity";
+import { User } from "../model/user.entity";
+import { Auth } from "../model/auth.entity";
+import { AppDataSource } from "../providers/dataSource";
 import { Logger } from "tslog";
 import crypto from "crypto";
 import dayjs from "dayjs";

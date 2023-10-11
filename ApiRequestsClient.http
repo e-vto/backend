@@ -10,10 +10,9 @@ POST {{UrlBase}}/users/register
 Content-Type: application/json
 
 {
-  	"name": "Harry Potter",
+  "name": "Harry Potter",
 	"email": "pottah@ministry.gov.uk",
 	"cpf": "11122233319",
-	"sexo": "M",
 	"phone": "43999210522",
 	"birthdate": "1999-12-31",
 	"password": "bettercallsaul"
@@ -45,36 +44,3 @@ Content-Type: application/json
 
 GET {{UrlBase}}/users/@me
 Authorization: {{LoginToken}}
-
-###############################################################################
-###############################################################################
-###############################################################################
-
-# Envia um e-mail de reset de senha
-# @name ResetPassword
-
-#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
-
-POST {{UrlBase}}/users/reset/password
-#GET {{UrlBase}}/users/reset/password
-Content-Type: application/json
-
-
-###############################################################################
-###############################################################################
-################################################################################ Cria um plano de aula
-# @name CreateClassPlan
-
-#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
-
-POST {{UrlBase}}/plan/create
-Content-Type: application/json
-
-{
-  "syllabus": "A disciplina apresenta conceitos de análise e projeto orientados a objetos e a Linguagem de modelagem unificada (UML)",
-  "content": "Introdução a Análise e Projeto Orientado a Objetos; Casos de Uso; Detalhamento do caso de uso; UML Unified Modeling Language e seus diagramas;  Análise Orientada a Objetos Modelo estático do sistema Modelo dinâmico do sistema3319",
-  "classesQuantity": 20
-}
-###############################################################################
-###############################################################################
-###############################################################################
