@@ -2,14 +2,14 @@ import "reflect-metadata";
 import 'dotenv/config';
 // this shim is required
 import { createExpressServer } from "routing-controllers";
+import { UserController } from "./controller/UserController.js";
 import { Logger } from "tslog";
 import { AuthorizationChecker } from "./providers/authorization.js";
-import path from "path";
+import OpenaiController from "./controller/OpenaiController.js";
 const logger = new Logger({ name: "main" });
 // creates express app, registers all controller routes and returns you express app instance
 const app = createExpressServer({
-    //controllers: [UserController, OpenaiController], // we specify controllers we want to use
-    controllers: [path.join(__dirname + '/controllers/*.js')],
+    controllers: [UserController, OpenaiController],
     authorizationChecker: AuthorizationChecker,
 }).listen(3000);
 // run express application on port 3000
