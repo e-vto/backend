@@ -7,12 +7,13 @@ import {
 	NotFoundError,
 	Authorized,
 } from "routing-controllers";
-import { userService } from "../service/userService";
-import { authService } from "../service/authService";
-import { User } from "../model/user.entity";
-import { UserRegisterDto } from "./dto/UserRegisterDto";
-import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto";
-import { WithSessionUser } from "../providers/authorization";
+import { userService } from "../service/userService.js";
+import { authService } from "../service/authService.js";
+import { User } from "../model/user.entity.js";
+import { UserRegisterDto } from "./dto/UserRegisterDto.js";
+import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto.js";
+import { WithSessionUser } from "../providers/authorization.js";
+import MailService from "../service/mailService.js";
 
 @JsonController()
 export class UserController {
@@ -29,7 +30,6 @@ export class UserController {
 		userObj.email = payload.email;
 		userObj.cpf = payload.cpf;
 		userObj.phone = payload.phone;
-		userObj.birthdate = new Date(payload.birthdate);
 
 		const password = payload.password;
 
@@ -73,5 +73,19 @@ export class UserController {
 		}
 
 		return user;
+	}
+
+	/**
+	 * Retorna o token que vai ser autenticado. // não acho uma boa ideia, tem jeitos melhores de fazer isso mas da mt preguiça
+	 */
+	@Post("/users/reset/password")
+	//@Get("/users/reset/password")
+	//@Authorized()
+	async resetPassword() {
+		const mailService = new MailService();
+
+		mailService.sendEmail("insira@um.email");
+
+		return ;
 	}
 }
