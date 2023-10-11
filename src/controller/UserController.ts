@@ -7,13 +7,13 @@ import {
 	NotFoundError,
 	Authorized,
 } from "routing-controllers";
-import { userService } from "../service/userService";
-import { authService } from "../service/authService";
-import { User } from "../model/user.entity";
-import { UserRegisterDto } from "./dto/UserRegisterDto";
-import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto";
-import { WithSessionUser } from "../providers/authorization";
-import MailService from "../service/mailService";
+import { userService } from "../service/userService.js";
+import { authService } from "../service/authService.js";
+import { User } from "../model/user.entity.js";
+import { UserRegisterDto } from "./dto/UserRegisterDto.js";
+import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto.js";
+import { WithSessionUser } from "../providers/authorization.js";
+import MailService from "../service/mailService.js";
 
 @JsonController()
 export class UserController {

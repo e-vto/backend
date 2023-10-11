@@ -1,6 +1,6 @@
 import { Body, Get, JsonController, Post, Authorized } from "routing-controllers";
-import OpenaiPayloadDto from "./dto/OpenaiPayloadDto";
-import { OpenIaService } from "../service/openaiService";
+import OpenaiPayloadDto from "./dto/OpenaiPayloadDto.js";
+import { OpenIaService } from "../service/openaiService.js";
 import { Logger } from "tslog";
 import OpenaiResponseDto from "./dto/OpenaiResponseDto";
 
@@ -30,4 +30,9 @@ export default class OpenaiController {
 
 	@Get("/plan/:id")
 	async getUserPlans() {}
+
+	@Get("/ping")
+	async ping() {
+		return 'pong 🏓'
+	}
 }

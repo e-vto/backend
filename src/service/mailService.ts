@@ -3,14 +3,14 @@ import Mailjet from 'node-mailjet';
 export default class MailService {
 	private public_key;
 	private private_key;
-	private mailJet;
+	//private mailJet;
 
 	constructor() {
 		const public_key = String(process.env.MJ_APIKEY_PUBLIC);
 		const private_key = String(process.env.MJ_APIKEY_PRIVATE);
 
-		this.public_key = process.env.MJ_APIKEY_PUBLIC;
-		this.private_key = process.env.MJ_APIKEY_PRIVATE;
+		this.public_key = String(process.env.MJ_APIKEY_PUBLIC);
+		this.private_key = String(process.env.MJ_APIKEY_PRIVATE);
 
 		//this.mailJet = Mailjet.apiConnect(public_key, private_key);
 	}

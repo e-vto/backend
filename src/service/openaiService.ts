@@ -1,9 +1,7 @@
 import OpenAI from "openai";
 import { ChatCompletion, ChatCompletionCreateParams } from "openai/resources/chat";
-import { LessonPlan } from "../model/lessonPlan.entity";
 export class OpenIaService {
 	private openIAApi: OpenAI;
-	private;
 
 	constructor() {
 		const config = {

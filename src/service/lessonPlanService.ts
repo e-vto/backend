@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
-import { AppDataSource } from "../providers/dataSource";
-import { LessonPlan } from "../model/lessonPlan.entity";
-import { User } from "../model/user.entity";
+import { AppDataSource } from "../providers/dataSource.js";
+import { LessonPlan } from "../model/lessonPlan.entity.js";
+import { User } from "../model/user.entity.js";
 
 export class LessonPlanService {
 	private lessonPlanRepository: Repository<LessonPlan>;
