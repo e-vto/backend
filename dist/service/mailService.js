@@ -37,7 +37,7 @@ export default class MailService {
                     },
                     "To": [
                         {
-                            "Email": "jornada_nia2023@proton.me",
+                            "Email": "vmorais194@gmail.com",
                             "Name": "vinicius"
                         }
                     ],

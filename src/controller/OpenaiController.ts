@@ -3,6 +3,7 @@ import OpenaiPayloadDto from "./dto/OpenaiPayloadDto.js";
 import { OpenIaService } from "../service/openaiService.js";
 import { Logger } from "tslog";
 import OpenaiResponseDto from "./dto/OpenaiResponseDto";
+import { ChatCompletion } from "openai/resources/chat/index.js";
 
 @JsonController()
 export default class OpenaiController {
@@ -13,19 +14,29 @@ export default class OpenaiController {
 	 */
 	@Post("/plan/create")
 	//@Authorized()
-	async register(@Body() payload: OpenaiPayloadDto) { // : OpenaiResponseDto
+	async register(@Body() payload: OpenaiPayloadDto) {
 		const openai = new OpenIaService();
 
-		const reqMessage =
-			`Ementa: ${payload.syllabus} \n
+		const reqMessage = `Ementa: ${payload.syllabus} \n
 			Conteudos Formativos: ${payload.content} \n
 			Serão dividos em ${payload.classesQuantity} encontros`;
 
-		const response = openai.makeRequest(reqMessage);
+		try {
+			const response: ChatCompletion = await openai.makeRequest(
+				reqMessage,
+				payload.detailAmount,
+				payload.creativityAmout,
+				payload.maxLenght
+			);
 
-		await console.log(response);
-
-		return response;
+			if (response.choices[0].message.function_call == null) {
+				throw new Error("GPT não retornou nenhuma resposta válida");
+			} else {
+				return response.choices[0].message.function_call.arguments;
+			}
+		} catch (error) {
+			throw error;
+		}
 	}
 
 	@Get("/plan/:id")
@@ -33,6 +44,6 @@ export default class OpenaiController {
 
 	@Get("/ping")
 	async ping() {
-		return 'pong 🏓'
+		return "pong 🏓";
 	}
 }

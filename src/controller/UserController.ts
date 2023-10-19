@@ -74,18 +74,4 @@ export class UserController {
 
 		return user;
 	}
-
-	/**
-	 * Retorna o token que vai ser autenticado. // não acho uma boa ideia, tem jeitos melhores de fazer isso mas da mt preguiça
-	 */
-	@Post("/users/reset/password")
-	//@Get("/users/reset/password")
-	//@Authorized()
-	async resetPassword() {
-		const mailService = new MailService();
-
-		mailService.sendEmail("insira@um.email");
-
-		return ;
-	}
 }

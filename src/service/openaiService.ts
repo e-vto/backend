@@ -16,7 +16,12 @@ export class OpenIaService {
 	 * @param text texto a ser enviado.
 	 * @returns retorna a resposta obtida pela API
 	 */
-	public async makeRequest(text: string): Promise<ChatCompletion> {
+	public async makeRequest(
+		text: string,
+		details: number,
+		creativity: number,
+		maxLenght: number
+	): Promise<ChatCompletion> {
 		const functions = this.defineApiReturn();
 
 		const params: ChatCompletionCreateParams = {
@@ -59,7 +64,7 @@ export class OpenIaService {
 				planArr: {
 					type: "array",
 					descripton: "lista de objetos dos dias de plano de aula",
-					items:{
+					items: {
 						type: "object",
 						properties: {
 							theme: {
@@ -69,7 +74,8 @@ export class OpenIaService {
 							},
 							objectives: {
 								type: "string",
-								description: "Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
+								description:
+									"Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
 							},
 							duration: {
 								type: "string",
@@ -83,7 +89,7 @@ export class OpenIaService {
 								type: "string",
 								description: "O conteúdo principal do plano de aula",
 							},
-						}
+						},
 					},
 				},
 			},
