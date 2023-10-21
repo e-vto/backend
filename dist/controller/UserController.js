@@ -17,7 +17,6 @@ import { User } from "../model/user.entity.js";
 import { UserRegisterDto } from "./dto/UserRegisterDto.js";
 import { UserLoginDto } from "./dto/UserLoginDto.js";
 import { WithSessionUser } from "../providers/authorization.js";
-import MailService from "../service/mailService.js";
 let UserController = class UserController {
     /**
      * Faz o cadastro de um usuário.
@@ -61,16 +60,6 @@ let UserController = class UserController {
         }
         return user;
     }
-    /**
-     * Retorna o token que vai ser autenticado. // não acho uma boa ideia, tem jeitos melhores de fazer isso mas da mt preguiça
-     */
-    //@Get("/users/reset/password")
-    //@Authorized()
-    async resetPassword() {
-        const mailService = new MailService();
-        mailService.sendEmail("insira@um.email");
-        return;
-    }
 };
 __decorate([
     Post("/users/register"),
@@ -101,15 +90,6 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "getOne", null);
-__decorate([
-    Post("/users/reset/password")
-    //@Get("/users/reset/password")
-    //@Authorized()
-    ,
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Promise)
-], UserController.prototype, "resetPassword", null);
 UserController = __decorate([
     JsonController()
 ], UserController);

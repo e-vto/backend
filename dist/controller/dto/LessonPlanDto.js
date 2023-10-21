@@ -8,36 +8,74 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 import { IsString, IsNumber } from "class-validator";
-export default class OpenaiPayloadDto {
-    // ementa
+export default class lessonPLanDto {
+    /**
+     * Ementa da matéria
+     */
     syllabus;
+    userEmail;
+    /**
+     * Conteúdo formativo da aula
+     */
     content;
+    /**
+     * Quantidade de aulas disponíveis
+     */
     classesQuantity;
-    detailAmount;
-    creativityAmout;
-    maxLenght;
+    /**
+     * Nível de detalhamento
+     */
+    detail;
+    /**
+     * Nível de criatividade (temperature)
+     */
+    creativity; // esse tipo deve estar errado
+    /**
+     * Tamanho em quantidade de palavras
+     */
+    size;
+    /**
+     * Nível de detalhamento
+     */
+    lesson_type;
+    /**
+     * Prompt utilizada para gerar
+     */
+    prompt;
 }
 __decorate([
     IsString(),
     __metadata("design:type", String)
-], OpenaiPayloadDto.prototype, "syllabus", void 0);
+], lessonPLanDto.prototype, "syllabus", void 0);
 __decorate([
     IsString(),
     __metadata("design:type", String)
-], OpenaiPayloadDto.prototype, "content", void 0);
+], lessonPLanDto.prototype, "userEmail", void 0);
+__decorate([
+    IsString(),
+    __metadata("design:type", String)
+], lessonPLanDto.prototype, "content", void 0);
 __decorate([
     IsNumber(),
     __metadata("design:type", Number)
-], OpenaiPayloadDto.prototype, "classesQuantity", void 0);
+], lessonPLanDto.prototype, "classesQuantity", void 0);
 __decorate([
     IsNumber(),
     __metadata("design:type", Number)
-], OpenaiPayloadDto.prototype, "detailAmount", void 0);
+], lessonPLanDto.prototype, "detail", void 0);
 __decorate([
     IsNumber(),
     __metadata("design:type", Number)
-], OpenaiPayloadDto.prototype, "creativityAmout", void 0);
+], lessonPLanDto.prototype, "creativity", void 0);
 __decorate([
     IsNumber(),
     __metadata("design:type", Number)
-], OpenaiPayloadDto.prototype, "maxLenght", void 0);
+], lessonPLanDto.prototype, "size", void 0);
+__decorate([
+    IsString(),
+    __metadata("design:type", String)
+], lessonPLanDto.prototype, "lesson_type", void 0);
+__decorate([
+    IsString(),
+    __metadata("design:type", String)
+], lessonPLanDto.prototype, "prompt", void 0);

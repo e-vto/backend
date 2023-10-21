@@ -12,7 +12,7 @@ export class OpenIaService {
      * @param text texto a ser enviado.
      * @returns retorna a resposta obtida pela API
      */
-    async makeRequest(text) {
+    async makeRequest(text, details, creativity, maxLenght) {
         const functions = this.defineApiReturn();
         const params = {
             //model: "gpt-3.5-turbo",
@@ -70,7 +70,7 @@ export class OpenIaService {
                                 type: "string",
                                 description: "O conteúdo principal do plano de aula",
                             },
-                        }
+                        },
                     },
                 },
             },

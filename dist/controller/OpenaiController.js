@@ -13,25 +13,54 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 import { Body, Get, JsonController, Post } from "routing-controllers";
 import OpenaiPayloadDto from "./dto/OpenaiPayloadDto.js";
 import { OpenIaService } from "../service/openaiService.js";
+import lessonPLanDto from "./dto/LessonPlanDto.js";
+import { LessonPlan } from "../model/lessonPlan.entity.js";
+import { isNotEmpty } from "class-validator";
+import { lessonPlanService } from "../service/lessonPlanService.js";
 let OpenaiController = class OpenaiController {
     /**
      * Envia a requisição do plano para a openai.
      * @param openaiPayload - Objeto com as informações para a API da Openai
-     * @returns plandto
+     * @returns planDto
      */
-    //@Authorized()
     async register(payload) {
         const openai = new OpenIaService();
         const reqMessage = `Ementa: ${payload.syllabus} \n
 			Conteudos Formativos: ${payload.content} \n
 			Serão dividos em ${payload.classesQuantity} encontros`;
-        const response = openai.makeRequest(reqMessage);
-        await console.log(response);
-        return response;
+        try {
+            const response = await openai.makeRequest(reqMessage, payload.detailAmount, payload.creativityAmout, payload.maxLenght);
+            if (response.choices[0].message.function_call == null) {
+                throw new Error("GPT não retornou nenhuma resposta válida");
+            }
+            else {
+                return response.choices[0].message.function_call.arguments;
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    /**
+     * Salva um plano de aula
+     * @param lessonPLanDto - Objeto com as informações do plano de aula
+     * @returns true or false
+     */
+    async save(payload) {
+        const lessonPlan = new LessonPlan();
+        try {
+            Object.assign(lessonPlan, payload);
+            const savedPlan = lessonPlanService.savePlan(payload.userEmail, lessonPlan);
+            if (isNotEmpty(savedPlan))
+                return true;
+        }
+        catch (erro) {
+            throw erro;
+        }
     }
     async getUserPlans() { }
     async ping() {
-        return 'pong 🏓';
+        return "pong 🏓";
     }
 };
 __decorate([
@@ -43,6 +72,13 @@ __decorate([
     __metadata("design:paramtypes", [OpenaiPayloadDto]),
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "register", null);
+__decorate([
+    Post("/plan/save"),
+    __param(0, Body()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [lessonPLanDto]),
+    __metadata("design:returntype", Promise)
+], OpenaiController.prototype, "save", null);
 __decorate([
     Get("/plan/:id"),
     __metadata("design:type", Function),
