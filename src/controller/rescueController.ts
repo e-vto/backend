@@ -24,22 +24,44 @@ export class RescueController {
      */
     @Post("/rescue/start")
     async startRescue(@Body() payload: {email: string}){
+        try{
+            // verifica se o email pertence a um usuário
+            const user = await userService.getUserByEmail(payload.email);
 
-        // verifica se o email pertence a um usuário
-        const user = await userService.getUserByEmail(payload.email);
+            if(isNotEmpty(user)){
+                // define o código e envia o email
+                const code = await rescueCodeService.defineCode(user!);
+                const isSend = await mailService.sendEmail(code!, user!);
 
-        if(isNotEmpty(user)){
-            const code = await rescueCodeService.defineCode(user!);
-            mailService.sendEmail(code!, user!);
+                if(isSend) return true;
+            }
+        }catch(error){
+            throw error;
         }
+        
     }
 
     /**
      * 
      */
     @Post("/rescue/test")
-    async testRescue(@Body() payload: {code: string}){
-
+    async testRescue(@Body() payload: {email: string, code: string}){
+        
+        // verifica se o email pertence a um usuário
+        const user = await userService.getUserByEmail(payload.email);
+        
+        if(isNotEmpty(user)){
+            // verifica se o código está certo e pertence ao usuário
+            const isRightCode = await rescueCodeService.validateCode(user!, payload.code);
+            
+            if(isRightCode){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        // se chegou aqui significa que o usuário não pediu para trocar de senha
+        return false;
     }
 
     /**

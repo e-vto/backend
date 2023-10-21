@@ -1,5 +1,6 @@
 import Mailjet from "node-mailjet";
 import { User } from "../model/user.entity";
+import { isNotEmpty } from "class-validator";
 
 export class MailService {
 	private public_key;
@@ -20,7 +21,7 @@ export class MailService {
 	 * sendEmail
 	 * @param mail - Email do destinatario
 	 */
-	public sendEmail(code: string, user: User) {
+	public async sendEmail(code: string, user: User) {
 		const mailjet = new Mailjet({
 			apiKey: process.env.MJ_APIKEY_PUBLIC,
 			apiSecret: process.env.MJ_APIKEY_PRIVATE,
@@ -32,37 +33,39 @@ export class MailService {
 				},
 			},
 		});
-
-		const request = mailjet.post("send", { version: "v3.1" }).request({
-			Messages: [
-				{
-					From: {
-						Email: "jornada_nia2023@proton.me",
-						Name: "vinicius",
-					},
-					To: [
-						{
-							Email: user.email,
-							Name: user.name,
+		
+		try{
+			const request = await mailjet.post("send", { version: "v3.1" }).request({
+				Messages: [
+					{
+						From: {
+							Email: "jornada_nia2023@proton.me",
+							Name: "Nia",
 						},
-					],
-					Subject: "Recuperação de Senha.",
-					TextPart: "Este email é para recuperar sua senha",
-					HTMLPart:
-						"<h3>Seu código de recuperação é <strong>" +
-						code +
-						"</strong></h3><br /> Se você não solicitou a troca de senha, não faça nada<br />May the force be with you!",
-					CustomID: "nsei",
-				},
-			],
-		});
-		request
-			.then(result => {
-				return true;
-			})
-			.catch(err => {
-				console.log(err.statusCode, err);
+						To: [
+							{
+								Email: user.email,
+								Name: user.name,
+							},
+						],
+						Subject: "Recuperação de Senha.",
+						TextPart: "Este email é para recuperar sua senha",
+						HTMLPart:
+							"<h3>Seu código de recuperação é <strong>" +
+							code +
+							"</strong></h3><br /> Se você não solicitou a troca de senha, não faça nada<br />May the force be with you! </br> <strong>não responda esse email</strong>",
+						CustomID: "nsei",
+					},
+				],
 			});
+			
+			if(isNotEmpty(request)){
+				return true
+			}
+		}catch(error){
+			throw error;
+		}
+		
 	}
 }
 

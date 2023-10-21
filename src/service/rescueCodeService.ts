@@ -48,7 +48,8 @@ export class RescueCodeService{
             const find = await this.rescueCodeRepository.findOne({where: {user: user}});
 
             if(find == null){
-                throw new Error("erro user not found");
+                //throw new Error("erro user not found");
+                return false;
             }
 
             if(find.code == code){

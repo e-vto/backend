@@ -13,7 +13,6 @@ import { User } from "../model/user.entity.js";
 import { UserRegisterDto } from "./dto/UserRegisterDto.js";
 import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto.js";
 import { WithSessionUser } from "../providers/authorization.js";
-import MailService from "../service/mailService.js";
 
 @JsonController()
 export class UserController {
