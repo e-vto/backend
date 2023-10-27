@@ -43,13 +43,13 @@ let LessonPlan = class LessonPlan {
      */
     size;
     /**
-     * Nível de detalhamento
+     * Tipo de aula
      */
     lesson_type;
     /**
-     * Prompt utilizada para gerar
+     * texto do plano de aula
      */
-    prompt;
+    text;
     /**
      * Data de criação
      */
@@ -95,7 +95,7 @@ __decorate([
 __decorate([
     Column(),
     __metadata("design:type", String)
-], LessonPlan.prototype, "prompt", void 0);
+], LessonPlan.prototype, "text", void 0);
 __decorate([
     Column(),
     __metadata("design:type", Date)

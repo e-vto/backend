@@ -41,7 +41,7 @@ export default class lessonPLanDto {
     /**
      * Prompt utilizada para gerar
      */
-    prompt;
+    text;
 }
 __decorate([
     IsString(),
@@ -78,4 +78,4 @@ __decorate([
 __decorate([
     IsString(),
     __metadata("design:type", String)
-], lessonPLanDto.prototype, "prompt", void 0);
+], lessonPLanDto.prototype, "text", void 0);

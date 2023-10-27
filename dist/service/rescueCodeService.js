@@ -1,5 +1,5 @@
-import { RescueCode } from "../model/rescueCode.entity";
-import { AppDataSource } from "../providers/dataSource";
+import { RescueCode } from "../model/rescueCode.entity.js";
+import { AppDataSource } from "../providers/dataSource.js";
 export class RescueCodeService {
     rescueCodeRepository;
     constructor() {
@@ -11,7 +11,7 @@ export class RescueCodeService {
     * @returns código salvo no banco de dados
     */
     async defineCode(user) {
-        const code = Date.now() + (Math.random() + 1).toString().slice(-6);
+        const code = (Number(Date.now()) * Math.floor((Math.random() * 100) + 1)).toString().slice(-6);
         let rescueCode = await this.rescueCodeRepository.findOne({ where: { user: user } });
         if (rescueCode == null) {
             rescueCode = new RescueCode();
