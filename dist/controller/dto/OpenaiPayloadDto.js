@@ -13,6 +13,9 @@ export default class OpenaiPayloadDto {
     syllabus;
     content;
     classesQuantity;
+    detailAmount;
+    creativityAmout;
+    maxLenght;
 }
 __decorate([
     IsString(),
@@ -26,3 +29,15 @@ __decorate([
     IsNumber(),
     __metadata("design:type", Number)
 ], OpenaiPayloadDto.prototype, "classesQuantity", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], OpenaiPayloadDto.prototype, "detailAmount", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], OpenaiPayloadDto.prototype, "creativityAmout", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], OpenaiPayloadDto.prototype, "maxLenght", void 0);

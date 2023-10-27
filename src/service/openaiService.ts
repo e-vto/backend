@@ -16,8 +16,17 @@ export class OpenIaService {
 	 * @param text texto a ser enviado.
 	 * @returns retorna a resposta obtida pela API
 	 */
-	public async makeRequest(text: string): Promise<ChatCompletion> {
+	public async makeRequest(
+		text: string,
+		details: number,
+		creativity: number,
+		maxLenght: number
+	): Promise<ChatCompletion> {
 		const functions = this.defineApiReturn();
+
+		const detailsVal = this.returnDetails(details);
+		const creativityVal = this.returnCreativity(creativity);
+		const maxLenghtVal = this.returnSize(maxLenght);
 
 		const params: ChatCompletionCreateParams = {
 			//model: "gpt-3.5-turbo",
@@ -26,18 +35,15 @@ export class OpenIaService {
 				{
 					role: "system",
 					content:
-						"Você fará o papel de um professor universitário que neste momento precisa elaborar um plano de aula  a partir da ementa e conteudos",
+						"Você fará o papel de um professor universitário que neste momento precisa elaborar um plano de aula  a partir da ementa e conteudos. Esses planos devem ser " + detailsVal + " e " + maxLenghtVal
 				},
 				{ role: "user", content: text },
 			],
 			functions: [functions],
 			function_call: { name: "returnResponse" },
 			max_tokens: 16097, // idk que numero colocar
-			temperature: 0.5, // between 0 and 2
-			//frequency_penalty: 1,
+			temperature: creativityVal, // between 0 and 2
 		};
-
-		console.log(params);
 
 		const response = this.openIAApi.chat.completions.create(params);
 
@@ -59,7 +65,7 @@ export class OpenIaService {
 				planArr: {
 					type: "array",
 					descripton: "lista de objetos dos dias de plano de aula",
-					items:{
+					items: {
 						type: "object",
 						properties: {
 							theme: {
@@ -69,7 +75,8 @@ export class OpenIaService {
 							},
 							objectives: {
 								type: "string",
-								description: "Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
+								description:
+									"Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
 							},
 							duration: {
 								type: "string",
@@ -83,7 +90,7 @@ export class OpenIaService {
 								type: "string",
 								description: "O conteúdo principal do plano de aula",
 							},
-						}
+						},
 					},
 				},
 			},
@@ -102,4 +109,60 @@ export class OpenIaService {
 
 		return structure;
 	}
+
+	/**
+	 * Verificar o nível de detalhamento necessário.
+	 * @param details - Valor numérico de 1 a 3 para o detalhamento
+	 * @returns retorna o valor para o nível de detalhamento
+	 */
+	private returnDetails(details: number) {
+		switch (details) {
+			case 1:
+				return "pouco detalhado";
+			case 2:
+				return "médio detalhado";
+			case 3:
+				return "muito detalhado";
+			default:
+				return "médio detalhado";
+		}
+	}
+
+	/**
+	 * Verificar o tamanho necessário.
+	 * @param size - Valor numérico de 1 a 3 para o tamanho
+	 * @returns retorna o valor para o tamanho
+	 */
+	private returnSize(size: number) {
+		// aqui poderiamos usar valores que fossem nos tokens, mas melhor não
+		switch (size) { 
+			case 1:
+				return "pouco comprimento";
+			case 2:
+				return "médio comprimento";
+			case 3:
+				return "muito comprido";
+			default:
+				return "médio comprimento";
+		}
+	}
+
+	/**
+	 * Verificar a criatividade necessária.
+	 * @param size - Valor numérico de 1 a 3 para a criatividade
+	 * @returns retorna o valor para a criatividade
+	 */
+	private returnCreativity(creativity: number) {
+		switch (creativity) {
+			case 1:
+				return 0.5;
+			case 2:
+				return 1;
+			case 3:
+				return 2;
+			default:
+				return 0.5;
+		}
+	}
+
 }

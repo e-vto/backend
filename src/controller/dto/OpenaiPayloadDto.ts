@@ -11,4 +11,13 @@ export default class OpenaiPayloadDto {
 
     @IsNumber()
     classesQuantity: number;
+    
+    @IsNumber()
+    detailAmount: number;
+    
+    @IsNumber()
+    creativityAmout: number;
+
+    @IsNumber()
+    maxLenght: number;
 }   

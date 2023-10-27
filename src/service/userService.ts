@@ -22,6 +22,17 @@ export class UserService {
 	}
 
 	/**
+	 * Obtém um usuário pelo seu Email.
+	 * @param id O Email do usuário a ser buscado.
+	 * @returns Uma Promise que resolve para um objeto do tipo User se o usuário for encontrado, ou null se não for encontrado.
+	 */
+	public async getUserByEmail(email: string): Promise<User | null> {
+		const user = await this.userRepository.findOne({ where: { email: email } });
+
+		return user;
+	}
+
+	/**
 	 * Registra um novo usuário.
 	 * @param user - O objeto de usuário a ser salvo.
 	 * @param password - A senha do usuário encriptada.
@@ -48,6 +59,32 @@ export class UserService {
 
 			throw error;
 		}
+	}
+
+	/**
+	 * Troca a senha de um usuário.
+	 * @param user - O objeto de usuário a ser salvo.
+	 * @param password - A senha do usuário encriptada.
+	 * @returns Uma Promise que resolve para o usuário salvo.
+	 */
+	public async changePassword(user: User, password: string) : Promise<boolean>{
+		const queryRunner = await AppDataSource.createQueryRunner();
+		await queryRunner.startTransaction();
+
+		try {
+			// Define a senha para o usuário
+			await authService.setAuthInfoForUser(user, password);
+
+			await queryRunner.release();
+
+			return true;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			await queryRunner.release();
+
+			throw error;
+		}
+
 	}
 }
 

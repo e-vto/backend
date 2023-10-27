@@ -13,7 +13,6 @@ import { User } from "../model/user.entity.js";
 import { UserRegisterDto } from "./dto/UserRegisterDto.js";
 import { UserLoginDto, UserLoginResponseDto } from "./dto/UserLoginDto.js";
 import { WithSessionUser } from "../providers/authorization.js";
-import MailService from "../service/mailService.js";
 
 @JsonController()
 export class UserController {
@@ -73,19 +72,5 @@ export class UserController {
 		}
 
 		return user;
-	}
-
-	/**
-	 * Retorna o token que vai ser autenticado. // não acho uma boa ideia, tem jeitos melhores de fazer isso mas da mt preguiça
-	 */
-	@Post("/users/reset/password")
-	//@Get("/users/reset/password")
-	//@Authorized()
-	async resetPassword() {
-		const mailService = new MailService();
-
-		mailService.sendEmail("insira@um.email");
-
-		return ;
 	}
 }

@@ -9,12 +9,13 @@ import type { Application } from "express";
 import { AuthorizationChecker } from "./providers/authorization.js";
 import OpenaiController from "./controller/OpenaiController.js";
 import path from "path";
+import { RescueController } from "./controller/rescueController.js";
 
 const logger = new Logger({ name: "main" });
 
 // creates express app, registers all controller routes and returns you express app instance
 const app: Application = createExpressServer({
-	controllers: [UserController, OpenaiController], // we specify controllers we want to use
+	controllers: [UserController, OpenaiController, RescueController], // we specify controllers we want to use
 	authorizationChecker: AuthorizationChecker,
 });
 

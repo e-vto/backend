@@ -7,21 +7,13 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
-import { User } from "./user.entity.js";
-let LessonPlan = class LessonPlan {
-    /**
-     * Identificador único do plano.
-     */
-    id;
-    /**
-     * O usuário referido
-     */
-    user;
+import { IsString, IsNumber } from "class-validator";
+export default class lessonPLanDto {
     /**
      * Ementa da matéria
      */
     syllabus;
+    userEmail;
     /**
      * Conteúdo formativo da aula
      */
@@ -43,64 +35,47 @@ let LessonPlan = class LessonPlan {
      */
     size;
     /**
-     * Tipo de aula
+     * Nível de detalhamento
      */
     lesson_type;
     /**
-     * texto do plano de aula
+     * Prompt utilizada para gerar
      */
     text;
-    /**
-     * Data de criação
-     */
-    create_date;
-};
+}
 __decorate([
-    PrimaryGeneratedColumn(),
-    __metadata("design:type", Number)
-], LessonPlan.prototype, "id", void 0);
-__decorate([
-    OneToOne(() => User, user => user.id, { eager: true }),
-    JoinColumn(),
-    __metadata("design:type", User)
-], LessonPlan.prototype, "user", void 0);
-__decorate([
-    Column({ comment: "EMENTA" }),
+    IsString(),
     __metadata("design:type", String)
-], LessonPlan.prototype, "syllabus", void 0);
+], lessonPLanDto.prototype, "syllabus", void 0);
 __decorate([
-    Column(),
+    IsString(),
     __metadata("design:type", String)
-], LessonPlan.prototype, "content", void 0);
+], lessonPLanDto.prototype, "userEmail", void 0);
 __decorate([
-    Column(),
-    __metadata("design:type", Number)
-], LessonPlan.prototype, "classesQuantity", void 0);
-__decorate([
-    Column(),
-    __metadata("design:type", Number)
-], LessonPlan.prototype, "detail", void 0);
-__decorate([
-    Column(),
-    __metadata("design:type", Number)
-], LessonPlan.prototype, "creativity", void 0);
-__decorate([
-    Column(),
-    __metadata("design:type", Number)
-], LessonPlan.prototype, "size", void 0);
-__decorate([
-    Column(),
+    IsString(),
     __metadata("design:type", String)
-], LessonPlan.prototype, "lesson_type", void 0);
+], lessonPLanDto.prototype, "content", void 0);
 __decorate([
-    Column(),
+    IsNumber(),
+    __metadata("design:type", Number)
+], lessonPLanDto.prototype, "classesQuantity", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], lessonPLanDto.prototype, "detail", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], lessonPLanDto.prototype, "creativity", void 0);
+__decorate([
+    IsNumber(),
+    __metadata("design:type", Number)
+], lessonPLanDto.prototype, "size", void 0);
+__decorate([
+    IsString(),
     __metadata("design:type", String)
-], LessonPlan.prototype, "text", void 0);
+], lessonPLanDto.prototype, "lesson_type", void 0);
 __decorate([
-    Column(),
-    __metadata("design:type", Date)
-], LessonPlan.prototype, "create_date", void 0);
-LessonPlan = __decorate([
-    Entity()
-], LessonPlan);
-export { LessonPlan };
+    IsString(),
+    __metadata("design:type", String)
+], lessonPLanDto.prototype, "text", void 0);

@@ -53,16 +53,16 @@ export class LessonPlan {
     size: Number;
 
     /**
-	 * Nível de detalhamento
+	 * Tipo de aula
 	 */
     @Column()
     lesson_type: string;
 
     /**
-	 * Prompt utilizada para gerar
+	 * texto do plano de aula
 	 */
     @Column()
-    prompt: string;
+    text: string;
 
     /**
 	 * Data de criação
