@@ -62,7 +62,9 @@ Content-Type: application/json
 
 ###############################################################################
 ###############################################################################
-################################################################################ Cria um plano de aula
+###############################################################################
+
+# Cria um plano de aula
 # @name CreateClassPlan
 
 #@LoginToken = {{LoginDeUsuario.response.body.$.token}}
@@ -73,7 +75,74 @@ Content-Type: application/json
 {
   "syllabus": "A disciplina apresenta conceitos de análise e projeto orientados a objetos e a Linguagem de modelagem unificada (UML)",
   "content": "Introdução a Análise e Projeto Orientado a Objetos; Casos de Uso; Detalhamento do caso de uso; UML Unified Modeling Language e seus diagramas;  Análise Orientada a Objetos Modelo estático do sistema Modelo dinâmico do sistema3319",
-  "classesQuantity": 20
+  "classesQuantity": 20,
+  "detailAmount": 2,
+  "creativityAmout": 2,
+  "maxLenght": 100
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+
+# Salva um plano de aula
+# @name SaveClassPlan
+
+#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+POST {{UrlBase}}/plan/save
+Content-Type: application/json
+
+{
+	"syllabus": "A disciplina apresenta conceitos de análise e projeto orientados a objetos e a Linguagem de modelagem unificada (UML)",
+
+    "userEmail": "pottah@ministry.gov.uk",
+
+    "content": "Introdução a Análise e Projeto Orientado a Objetos; Casos de Uso; Detalhamento do caso de uso; UML Unified Modeling Language e seus diagramas;  Análise Orientada a Objetos Modelo estático do sistema Modelo dinâmico do sistema3319",
+
+    "classesQuantity": 20,
+
+    "detail": 2,
+
+    "creativity": 2,
+
+    "size": 10,
+
+    "lesson_type": "Modelagem de Software",
+
+    "text": "TESTETESTESTE"
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+
+# Inicia o resgate de senha
+# @name RescueInit
+
+#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+POST {{UrlBase}}/rescue/start
+Content-Type: application/json
+
+{
+    "email": "pottah@ministry.gov.uk"
+}
+###############################################################################
+###############################################################################
+###############################################################################
+
+# Inicia o resgate de senha
+# @name RescueInit
+
+#@LoginToken = {{LoginDeUsuario.response.body.$.token}}
+
+POST {{UrlBase}}/rescue/test
+Content-Type: application/json
+
+{
+    "email": "pottah@ministry.gov.uk",
+    "code": "1698280088042315799"
 }
 ###############################################################################
 ###############################################################################

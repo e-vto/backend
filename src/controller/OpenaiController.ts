@@ -7,6 +7,9 @@ import lessonPLanDto from "./dto/LessonPlanDto.js";
 import { LessonPlan } from "../model/lessonPlan.entity.js";
 import { isNotEmpty } from "class-validator";
 import { lessonPlanService } from "../service/lessonPlanService.js";
+import { WithSessionUser } from "../providers/authorization.js";
+import { User } from "../model/user.entity.js";
+import { NotFoundError } from "openai";
 
 @JsonController()
 export default class OpenaiController {
@@ -62,8 +65,28 @@ export default class OpenaiController {
 		}
 	}
 
-	@Get("/plan/:id")
-	async getUserPlans() {}
+	/**
+	 * Pega os planos relacionados a um usuário
+	 * @param sessionUser - Usuário logado
+	 * @returns um array de plano de aula
+	 */
+	@Get("/plans/@me")
+	async getUserPlans(@WithSessionUser() sessionUser: User) {
+
+		try{
+			const lessonPlans = lessonPlanService.getByUser(sessionUser);
+
+			if(isNotEmpty(lessonPlans)){
+				return lessonPlans;
+			}else{
+				throw NotFoundError;
+			}
+		}catch(error){
+			throw error;
+		}
+
+
+	}
 
 	@Get("/ping")
 	async ping() {

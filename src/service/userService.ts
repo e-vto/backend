@@ -60,6 +60,32 @@ export class UserService {
 			throw error;
 		}
 	}
+
+	/**
+	 * Troca a senha de um usuário.
+	 * @param user - O objeto de usuário a ser salvo.
+	 * @param password - A senha do usuário encriptada.
+	 * @returns Uma Promise que resolve para o usuário salvo.
+	 */
+	public async changePassword(user: User, password: string) : Promise<boolean>{
+		const queryRunner = await AppDataSource.createQueryRunner();
+		await queryRunner.startTransaction();
+
+		try {
+			// Define a senha para o usuário
+			await authService.setAuthInfoForUser(user, password);
+
+			await queryRunner.release();
+
+			return true;
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			await queryRunner.release();
+
+			throw error;
+		}
+
+	}
 }
 
 export const userService = new UserService();

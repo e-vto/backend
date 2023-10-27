@@ -50,5 +50,5 @@ export default class lessonPLanDto {
 	 * Prompt utilizada para gerar
 	 */
     @IsString()
-    prompt: string;
+    text: string;
 }
