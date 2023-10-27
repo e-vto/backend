@@ -54,13 +54,13 @@ export default class OpenaiController {
 	public async save(@Body() payload: lessonPLanDto) {
 		const lessonPlan = new LessonPlan();
 
-		try{
+		try {
 			Object.assign(lessonPlan, payload);
 			const savedPlan = lessonPlanService.savePlan(payload.userEmail, lessonPlan);
-			
-			if(isNotEmpty(savedPlan)) return true;
 
-		}catch(erro){
+			if (isNotEmpty(savedPlan)) return true;
+
+		} catch (erro) {
 			throw erro;
 		}
 	}
@@ -73,15 +73,15 @@ export default class OpenaiController {
 	@Get("/plans/@me")
 	async getUserPlans(@WithSessionUser() sessionUser: User) {
 
-		try{
+		try {
 			const lessonPlans = lessonPlanService.getByUser(sessionUser);
 
-			if(isNotEmpty(lessonPlans)){
+			if (isNotEmpty(lessonPlans)) {
 				return lessonPlans;
-			}else{
+			} else {
 				throw NotFoundError;
 			}
-		}catch(error){
+		} catch (error) {
 			throw error;
 		}
 

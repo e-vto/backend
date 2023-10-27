@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Body, Post, JsonController, } from "routing-controllers";
+import { Body, Post, JsonController, OnNull, } from "routing-controllers";
 import { userService } from "../service/userService.js";
+import { User } from "../model/user.entity.js";
+import { WithSessionUser } from "../providers/authorization.js";
 import { mailService } from "../service/mailService.js";
 import { isNotEmpty } from "class-validator";
 import { rescueCodeService } from "../service/rescueCodeService.js";
@@ -40,25 +42,47 @@ let RescueController = class RescueController {
      *
      */
     async testRescue(payload) {
-        // verifica se o email pertence a um usuário
-        const user = await userService.getUserByEmail(payload.email);
-        if (isNotEmpty(user)) {
-            // verifica se o código está certo e pertence ao usuário
-            const isRightCode = await rescueCodeService.validateCode(user, payload.code);
-            if (isRightCode) {
-                return true;
+        try {
+            // verifica se o email pertence a um usuário
+            const user = await userService.getUserByEmail(payload.email);
+            if (isNotEmpty(user)) {
+                // verifica se o código está certo e pertence ao usuário
+                const isRightCode = await rescueCodeService.validateCode(user, payload.code);
+                if (isRightCode) {
+                    return true;
+                }
+                else {
+                    return null;
+                }
             }
-            else {
-                return false;
-            }
+            // se chegou aqui significa que o usuário não pediu para trocar de senha
+            return null;
         }
-        // se chegou aqui significa que o usuário não pediu para trocar de senha
-        return false;
+        catch (error) {
+            console.log(error);
+            return null;
+        }
     }
     /**
      *
      */
-    async confirmRescue(payload) {
+    async confirmRescue(payload, sessionUser) {
+        try {
+            if (isNotEmpty(sessionUser)) {
+                // verifica se o código está certo e pertence ao usuário
+                const isRightCode = await rescueCodeService.validateCode(sessionUser, payload.code);
+                if (isRightCode) {
+                    const changed = await userService.changePassword(sessionUser, payload.newPassword);
+                    if (changed) {
+                        return { success: true };
+                    }
+                }
+            }
+        }
+        catch (error) {
+            console.log(error);
+            return null;
+        }
     }
 };
 __decorate([
@@ -70,6 +94,7 @@ __decorate([
 ], RescueController.prototype, "startRescue", null);
 __decorate([
     Post("/rescue/test"),
+    OnNull(418),
     __param(0, Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
@@ -77,9 +102,11 @@ __decorate([
 ], RescueController.prototype, "testRescue", null);
 __decorate([
     Post("/rescue/confirm"),
+    OnNull(418),
     __param(0, Body()),
+    __param(1, WithSessionUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Object, User]),
     __metadata("design:returntype", Promise)
 ], RescueController.prototype, "confirmRescue", null);
 RescueController = __decorate([

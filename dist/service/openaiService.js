@@ -14,23 +14,24 @@ export class OpenIaService {
      */
     async makeRequest(text, details, creativity, maxLenght) {
         const functions = this.defineApiReturn();
+        const detailsVal = this.returnDetails(details);
+        const creativityVal = this.returnCreativity(creativity);
+        const maxLenghtVal = this.returnSize(maxLenght);
         const params = {
             //model: "gpt-3.5-turbo",
             model: "gpt-3.5-turbo-16k",
             messages: [
                 {
                     role: "system",
-                    content: "Você fará o papel de um professor universitário que neste momento precisa elaborar um plano de aula  a partir da ementa e conteudos",
+                    content: "Você fará o papel de um professor universitário que neste momento precisa elaborar um plano de aula  a partir da ementa e conteudos. Esses planos devem ser " + detailsVal + " e " + maxLenghtVal
                 },
                 { role: "user", content: text },
             ],
             functions: [functions],
             function_call: { name: "returnResponse" },
             max_tokens: 16097,
-            temperature: 0.5, // between 0 and 2
-            //frequency_penalty: 1,
+            temperature: creativityVal, // between 0 and 2
         };
-        console.log(params);
         const response = this.openIAApi.chat.completions.create(params);
         const test = (await response).object;
         await console.log(test);
@@ -84,5 +85,57 @@ export class OpenIaService {
         };
         console.log(structure);
         return structure;
+    }
+    /**
+     * Verificar o nível de detalhamento necessário.
+     * @param details - Valor numérico de 1 a 3 para o detalhamento
+     * @returns retorna o valor para o nível de detalhamento
+     */
+    returnDetails(details) {
+        switch (details) {
+            case 1:
+                return "pouco detalhado";
+            case 2:
+                return "médio detalhado";
+            case 3:
+                return "muito detalhado";
+            default:
+                return "médio detalhado";
+        }
+    }
+    /**
+     * Verificar o tamanho necessário.
+     * @param size - Valor numérico de 1 a 3 para o tamanho
+     * @returns retorna o valor para o tamanho
+     */
+    returnSize(size) {
+        // aqui poderiamos usar valores que fossem nos tokens, mas melhor não
+        switch (size) {
+            case 1:
+                return "pouco comprimento";
+            case 2:
+                return "médio comprimento";
+            case 3:
+                return "muito comprido";
+            default:
+                return "médio comprimento";
+        }
+    }
+    /**
+     * Verificar a criatividade necessária.
+     * @param size - Valor numérico de 1 a 3 para a criatividade
+     * @returns retorna o valor para a criatividade
+     */
+    returnCreativity(creativity) {
+        switch (creativity) {
+            case 1:
+                return 0.5;
+            case 2:
+                return 1;
+            case 3:
+                return 2;
+            default:
+                return 0.5;
+        }
     }
 }

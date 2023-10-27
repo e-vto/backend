@@ -17,6 +17,9 @@ import lessonPLanDto from "./dto/LessonPlanDto.js";
 import { LessonPlan } from "../model/lessonPlan.entity.js";
 import { isNotEmpty } from "class-validator";
 import { lessonPlanService } from "../service/lessonPlanService.js";
+import { WithSessionUser } from "../providers/authorization.js";
+import { User } from "../model/user.entity.js";
+import { NotFoundError } from "openai";
 let OpenaiController = class OpenaiController {
     /**
      * Envia a requisição do plano para a openai.
@@ -58,7 +61,25 @@ let OpenaiController = class OpenaiController {
             throw erro;
         }
     }
-    async getUserPlans() { }
+    /**
+     * Pega os planos relacionados a um usuário
+     * @param sessionUser - Usuário logado
+     * @returns um array de plano de aula
+     */
+    async getUserPlans(sessionUser) {
+        try {
+            const lessonPlans = lessonPlanService.getByUser(sessionUser);
+            if (isNotEmpty(lessonPlans)) {
+                return lessonPlans;
+            }
+            else {
+                throw NotFoundError;
+            }
+        }
+        catch (error) {
+            throw error;
+        }
+    }
     async ping() {
         return "pong 🏓";
     }
@@ -80,9 +101,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "save", null);
 __decorate([
-    Get("/plan/:id"),
+    Get("/plans/@me"),
+    __param(0, WithSessionUser()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [User]),
     __metadata("design:returntype", Promise)
 ], OpenaiController.prototype, "getUserPlans", null);
 __decorate([

@@ -15,7 +15,6 @@ import { WithSessionUser } from "../providers/authorization.js";
 import { mailService } from "../service/mailService.js";
 import { isNotEmpty } from "class-validator";
 import { rescueCodeService } from "../service/rescueCodeService.js";
-import { STATUS_CODES } from "http";
 
 @JsonController()
 export class RescueController {
