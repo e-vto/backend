@@ -18,8 +18,7 @@ export class OpenIaService {
         const creativityVal = this.returnCreativity(creativity);
         const maxLenghtVal = this.returnSize(maxLenght);
         const params = {
-            //model: "gpt-3.5-turbo",
-            model: "gpt-3.5-turbo-16k",
+            model: "gpt-3.5-turbo",
             messages: [
                 {
                     role: "system",
@@ -29,7 +28,7 @@ export class OpenIaService {
             ],
             functions: [functions],
             function_call: { name: "returnResponse" },
-            max_tokens: 16097,
+            max_tokens: 1024,
             temperature: creativityVal, // between 0 and 2
         };
         const response = this.openIAApi.chat.completions.create(params);
@@ -53,23 +52,31 @@ export class OpenIaService {
                         properties: {
                             theme: {
                                 type: "string",
-                                description: "Aqui deve-se conter o tema principal da aula, por exemplo: 'Laços e Condicionais na Computação'",
+                                description: "Deve conter o tema principal da aula, por exemplo: 'Laços e Condicionais na Computação'",
                             },
                             objectives: {
-                                type: "string",
-                                description: "Aqui devem conter os objetivos de aprendizado do plano de apredizagem",
+                                type: "array",
+                                description: "Devem conter os objetivos de aprendizado do plano de aprendizagem",
+                                items: {
+                                    type: "string",
+                                    description: "Um subtópico do plano de aula. Um parágrafo apenas. Não inclua Markdown nem HTML"
+                                }
                             },
                             duration: {
                                 type: "string",
-                                description: "Quanto tempo de aula será necessário",
+                                description: "Quantidade de aulas/turnos/encontros necessários para o ensino do conteúdo",
                             },
                             // method: {
                             // 	type: "string",
                             // 	description: "Qual o tipo de metodologia será abordada",
                             // },
                             content: {
-                                type: "string",
-                                description: "O conteúdo principal do plano de aula",
+                                type: "array",
+                                description: "Os conteúdos principal do plano de aula",
+                                items: {
+                                    type: "string",
+                                    description: "Um conteúdo."
+                                }
                             },
                         },
                     },
